@@ -1,0 +1,103 @@
+{
+  "provider": "Earth Observation Group (EOG) / NOAA / World Bank Open Night Lights",
+  "bucket": "https://globalnightlight.s3.amazonaws.com",
+  "region": "Chennai Metropolitan Area, Tamil Nadu, India",
+  "bounding_box": [
+    80.1,
+    12.85,
+    80.35,
+    13.25
+  ],
+  "variable": "avg_rade9 (Average DNB Radiance, nW/cm2/sr)",
+  "composites_count": 4,
+  "records": [
+    {
+      "product_id": "DNB_npp_20210401-20210430_global_ecm-slcorr_v10_ops",
+      "year": 2021,
+      "month": "202104",
+      "observation_date": "2021-04-01",
+      "period_start": "2021-04-01",
+      "period_end": "2021-04-30",
+      "source_url": "https://globalnightlight.s3.amazonaws.com/composites/npp_202104_ops/DNB_npp_20210401-20210430_global_ecm-slcorr_v10_ops.avg_rade9.tif",
+      "variable": "avg_rade9",
+      "units": "nW/cm2/sr",
+      "native_spatial_resolution": "15 arc-seconds (~500m)",
+      "raster_dimensions": [
+        512,
+        512
+      ],
+      "origin_x": 79.19791874025,
+      "origin_y": 14.202082846949999,
+      "scale_x": 0.0041666667,
+      "scale_y": 0.0041666667,
+      "crs": "EPSG:4326",
+      "provenance_type": "OBSERVED"
+    },
+    {
+      "product_id": "DNB_npp_20220401-20220430_global_ecm-slcorr_v10_ops",
+      "year": 2022,
+      "month": "202204",
+      "observation_date": "2022-04-01",
+      "period_start": "2022-04-01",
+      "period_end": "2022-04-30",
+      "source_url": "https://globalnightlight.s3.amazonaws.com/composites/npp_202204_ops/DNB_npp_20220401-20220430_global_ecm-slcorr_v10_ops.avg_rade9.tif",
+      "variable": "avg_rade9",
+      "units": "nW/cm2/sr",
+      "native_spatial_resolution": "15 arc-seconds (~500m)",
+      "raster_dimensions": [
+        512,
+        512
+      ],
+      "origin_x": 79.19791874025,
+      "origin_y": 14.202082846949999,
+      "scale_x": 0.0041666667,
+      "scale_y": 0.0041666667,
+      "crs": "EPSG:4326",
+      "provenance_type": "OBSERVED"
+    },
+    {
+      "product_id": "DNB_npp_20230401-20230430_global_ecm-slcorr_v10_ops",
+      "year": 2023,
+      "month": "202304",
+      "observation_date": "2023-04-01",
+      "period_start": "2023-04-01",
+      "period_end": "2023-04-30",
+      "source_url": "https://globalnightlight.s3.amazonaws.com/composites/npp_202304_ops/DNB_npp_20230401-20230430_global_ecm-slcorr_v10_ops.avg_rade9.tif",
+      "variable": "avg_rade9",
+      "units": "nW/cm2/sr",
+      "native_spatial_resolution": "15 arc-seconds (~500m)",
+      "raster_dimensions": [
+        512,
+        512
+      ],
+      "origin_x": 79.19791874025,
+      "origin_y": 14.202082846949999,
+      "scale_x": 0.0041666667,
+      "scale_y": 0.0041666667,
+      "crs": "EPSG:4326",
+      "provenance_type": "OBSERVED"
+    },
+    {
+      "product_id": "DNB_npp_20240401-20240430_global_ecm-slcorr_v10_ops",
+      "year": 2024,
+      "month": "202404",
+      "observation_date": "2024-04-01",
+      "period_start": "2024-04-01",
+      "period_end": "2024-04-30",
+      "source_url": "https://globalnightlight.s3.amazonaws.com/composites/npp_202404_ops/DNB_npp_20240401-20240430_global_ecm-slcorr_v10_ops.avg_rade9.tif",
+      "variable": "avg_rade9",
+      "units": "nW/cm2/sr",
+      "native_spatial_resolution": "15 arc-seconds (~500m)",
+      "raster_dimensions": [
+        512,
+        512
+      ],
+      "origin_x": 79.19791874025,
+      "origin_y": 14.202082846949999,
+      "scale_x": 0.0041666667,
+      "scale_y": 0.0041666667,
+      "crs": "EPSG:4326",
+      "provenance_type": "OBSERVED"
+    }
+  ]
+}

@@ -125,11 +125,8 @@ def get_region_osm_context(grid_id: str) -> Dict[str, Any]:
     """Retrieve precomputed real OSM context for a specific grid cell (e.g. 'CHE_G007').
     Implements backend service function for future GET /api/v1/regions/{grid_id}.
     """
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    processed_path = os.path.join(base_dir, "datasets", "osm", "processed", "osm_chennai_grid_context.json")
-
-    if not os.path.exists(processed_path):
-        processed_path = os.path.join(base_dir, "data", "processed", "osm", "osm_chennai_grid_context.json")
+    from app.utils.geo_helpers import get_dataset_file
+    processed_path = get_dataset_file("datasets", "osm", "processed", "osm_chennai_grid_context.json")
 
     if not os.path.exists(processed_path):
         return {

@@ -1,0 +1,69 @@
+{
+  "dataset_name": "OpenStreetMap Regional Context Layer",
+  "dataset_id": "openstreetmap_contextual_layer",
+  "provider": "OpenStreetMap Contributors",
+  "access_method": "Overpass QL spatial strip & bounding box queries with automated mirror failover",
+  "endpoints": [
+    "https://overpass-api.de/api/interpreter",
+    "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter"
+  ],
+  "authentication_required": false,
+  "api_key_used": false,
+  "license": "Open Database License (ODbL) 1.0",
+  "attribution_required": "\u00a9 OpenStreetMap contributors",
+  "access_timestamp": "2026-09-03T09:15:46.576506+00:00",
+  "spatial_crs": {
+    "geographic": "EPSG:4326 (WGS84)",
+    "projected_metric": "EPSG:32644 (UTM Zone 44N)"
+  },
+  "coverage_bounds": {
+    "latitude": [
+      12.85,
+      13.25
+    ],
+    "longitude": [
+      80.1,
+      80.35
+    ],
+    "region": "Chennai Metropolitan Area, Tamil Nadu, India"
+  },
+  "feature_categories": {
+    "roads": [
+      "motorway",
+      "trunk",
+      "primary",
+      "secondary",
+      "tertiary",
+      "residential",
+      "service"
+    ],
+    "buildings": "Mapped building footprint polygons",
+    "pois": [
+      "healthcare",
+      "education",
+      "public_transport",
+      "financial_commercial",
+      "amenity_other"
+    ]
+  },
+  "derived_metrics": {
+    "total_road_length_km": "Sum of road polyline lengths in projected UTM 44N meters",
+    "road_density_km_per_km2": "Total road length in km divided by grid cell area in km2",
+    "mapped_building_count": "Count of mapped building ways inside grid cell",
+    "building_density_per_km2": "Mapped building count divided by grid cell area in km2",
+    "mapped_building_area_km2": "Estimated total building footprint area in km2 based on empirical sample",
+    "building_coverage_percent": "Percentage of grid cell area covered by mapped building footprints",
+    "poi_counts": "Categorized count of mapped amenities and transit hubs"
+  },
+  "provenance_rules": {
+    "raw_osm_elements": "OBSERVED",
+    "derived_spatial_metrics": "CALCULATED"
+  },
+  "known_limitations": [
+    "Volunteered geographic information: mapping density varies by urban center vs periphery.",
+    "Absence of a mapped feature does not imply non-existence.",
+    "Building counts reflect mapped physical structures and must NOT be used as population counts.",
+    "Features reflect OSM database state as of the access timestamp."
+  ]
+}

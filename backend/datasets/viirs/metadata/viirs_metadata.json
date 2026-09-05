@@ -1,0 +1,32 @@
+{
+  "dataset_name": "VIIRS Day/Night Band (DNB) Monthly Cloud-Free Nocturnal Radiance",
+  "dataset_id": "noaa_viirs_dnb_monthly_radiance",
+  "provider": "Earth Observation Group (EOG) / NOAA / World Bank Open Night Lights",
+  "source_archive": "https://globalnightlight.s3.amazonaws.com",
+  "access_method": "HTTP Range requests on Cloud-Optimized BigTIFF composites",
+  "authentication_required": false,
+  "api_key_used": false,
+  "variable": "avg_rade9",
+  "variable_description": "Average nocturnal DNB radiance with extended cloud masking and stray light correction",
+  "units": "nW/cm2/sr (10^-9 W/cm^2/sr)",
+  "native_spatial_resolution": "15 arc-seconds (0.0041666667 degrees, ~500m)",
+  "analytical_aggregation_resolution": "0.0500 degrees (~5.5 km)",
+  "temporal_resolution": "Monthly composite",
+  "temporal_coverage": {
+    "start_period": "2021-04-01",
+    "end_period": "2024-04-30",
+    "composites_included": [
+      "DNB_npp_20210401-20210430_global_ecm-slcorr_v10_ops",
+      "DNB_npp_20220401-20220430_global_ecm-slcorr_v10_ops",
+      "DNB_npp_20230401-20230430_global_ecm-slcorr_v10_ops",
+      "DNB_npp_20240401-20240430_global_ecm-slcorr_v10_ops"
+    ]
+  },
+  "crs": "EPSG:4326 (WGS84)",
+  "aggregation_method": "Zonal mean of non-negative valid sensor pixels within each 0.05 degree cell (~144 pixels per cell)",
+  "license": "Open Data Commons / NOAA Open Access Data Policy",
+  "provenance_rules": {
+    "source_raster_pixels": "OBSERVED",
+    "grid_aggregated_metrics": "CALCULATED"
+  }
+}

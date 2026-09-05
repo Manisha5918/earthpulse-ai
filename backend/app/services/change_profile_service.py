@@ -28,12 +28,12 @@ from app.services.baseline_service import BaselineService
 from app.services.anomaly_service import AnomalyService
 from app.services.cross_signal_service import CrossSignalService
 from app.services.temporal_alignment_service import TemporalAlignmentService
+from app.utils.geo_helpers import get_dataset_file
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-S2_CSV = os.path.join(BASE_DIR, "datasets", "sentinel2", "processed", "sentinel2_chennai_grid_observations.csv")
-VIIRS_CSV = os.path.join(BASE_DIR, "datasets", "viirs", "processed", "viirs_chennai_grid_observations.csv")
-NASA_CSV = os.path.join(BASE_DIR, "datasets", "nasa_power", "processed", "nasa_power_chennai_daily_2021_2024.csv")
-OSM_CSV = os.path.join(BASE_DIR, "datasets", "osm", "processed", "osm_chennai_grid_context.csv")
+S2_CSV = get_dataset_file("datasets", "sentinel2", "processed", "sentinel2_chennai_grid_observations.csv")
+VIIRS_CSV = get_dataset_file("datasets", "viirs", "processed", "viirs_chennai_grid_observations.csv")
+NASA_CSV = get_dataset_file("datasets", "nasa_power", "processed", "nasa_power_chennai_daily_2021_2024.csv")
+OSM_CSV = get_dataset_file("datasets", "osm", "processed", "osm_chennai_grid_context.csv")
 
 
 class ChangeProfileService:

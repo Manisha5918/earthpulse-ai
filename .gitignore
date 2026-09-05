@@ -56,12 +56,15 @@ data/cache/*
 !data/cache/.gitkeep
 backend/data/cache/*
 !backend/data/cache/.gitkeep
-backend/data/
 cache/
-# Immutable raw dataset archive (large, reproducible via pipeline scripts)
-datasets/*
+# Raw dataset archive (ignore large binaries, track processed CSVs)
+datasets/raw/*
+!datasets/**/processed/*.csv
+!datasets/**/processed/*.json
 !datasets/README.md
 !datasets/.gitkeep
+!backend/datasets/
+!backend/data/boundaries/
 *.tif
 *.tiff
 *.nc

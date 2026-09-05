@@ -1,0 +1,85 @@
+{
+  "provider": "OpenStreetMap",
+  "summaries": [
+    {
+      "cell_code": "CHE_G001",
+      "grid_id": 1,
+      "mapped_building_count": 23458
+    },
+    {
+      "cell_code": "CHE_G002",
+      "grid_id": 2,
+      "mapped_building_count": 14078
+    },
+    {
+      "cell_code": "CHE_G003",
+      "grid_id": 3,
+      "mapped_building_count": 1767
+    },
+    {
+      "cell_code": "CHE_G004",
+      "grid_id": 4,
+      "mapped_building_count": 0
+    },
+    {
+      "cell_code": "CHE_G005",
+      "grid_id": 5,
+      "mapped_building_count": 17694
+    },
+    {
+      "cell_code": "CHE_G006",
+      "grid_id": 6,
+      "mapped_building_count": 24022
+    },
+    {
+      "cell_code": "CHE_G007",
+      "grid_id": 7,
+      "mapped_building_count": 9130
+    },
+    {
+      "cell_code": "CHE_G008",
+      "grid_id": 8,
+      "mapped_building_count": 0
+    },
+    {
+      "cell_code": "CHE_G009",
+      "grid_id": 9,
+      "mapped_building_count": 26294
+    },
+    {
+      "cell_code": "CHE_G010",
+      "grid_id": 10,
+      "mapped_building_count": 31082
+    },
+    {
+      "cell_code": "CHE_G011",
+      "grid_id": 11,
+      "mapped_building_count": 12947
+    },
+    {
+      "cell_code": "CHE_G012",
+      "grid_id": 12,
+      "mapped_building_count": 0
+    },
+    {
+      "cell_code": "CHE_G013",
+      "grid_id": 13,
+      "mapped_building_count": 23089
+    },
+    {
+      "cell_code": "CHE_G014",
+      "grid_id": 14,
+      "mapped_building_count": 32989
+    },
+    {
+      "cell_code": "CHE_G015",
+      "grid_id": 15,
+      "mapped_building_count": 19604
+    },
+    {
+      "cell_code": "CHE_G016",
+      "grid_id": 16,
+      "mapped_building_count": 0
+    }
+  ]
+}

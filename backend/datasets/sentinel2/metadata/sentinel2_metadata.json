@@ -1,0 +1,65 @@
+{
+  "dataset_name": "Sentinel-2 Level-2A Multispectral BOA Reflectance & Regional Indices",
+  "dataset_id": "copernicus_sentinel2_msi_l2a",
+  "provider": "European Space Agency (ESA) Copernicus / Element 84 Earth Search",
+  "stac_endpoint": "https://earth-search.aws.element84.com/v1/search",
+  "cog_data_store": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/",
+  "target_region": "Chennai Metropolitan Area, Tamil Nadu, India",
+  "mgrs_tile": "44PMV",
+  "bounding_box": [
+    80.1,
+    12.85,
+    80.35,
+    13.25
+  ],
+  "spatial_resolution": {
+    "native": "10m (B04, B08, B03), 20m (B11, SCL)",
+    "cog_overview": "160m (Page 4)",
+    "analytical_aggregation": "0.05 degree regular grid (~5.5km x ~5.5km)"
+  },
+  "crs": {
+    "native": "EPSG:32644 (UTM Zone 44N)",
+    "analytical": "EPSG:4326 (WGS84)"
+  },
+  "spectral_bands": {
+    "B04": "Red (665 nm, 10m)",
+    "B08": "Near Infrared / NIR (842 nm, 10m)",
+    "B03": "Green (560 nm, 10m)",
+    "B11": "Shortwave Infrared / SWIR-1 (1610 nm, 20m)",
+    "SCL": "Scene Classification Layer (20m)"
+  },
+  "formulas": {
+    "NDVI": "(NIR - RED) / (NIR + RED)",
+    "NDWI": "(GREEN - NIR) / (GREEN + NIR) [McFeeters 1996]",
+    "NDBI": "(SWIR1 - NIR) / (SWIR1 + NIR) [Zha et al. 2003]"
+  },
+  "cloud_filtering": "Scene-level < 5.0% + Pixel-level SCL masking excluding classes 3 (shadow), 8, 9 (clouds), 10 (cirrus), 11 (snow)",
+  "authentication_required": false,
+  "license": "Copernicus Open Access Policy (Free, full and open)",
+  "provenance_type": {
+    "spectral_bands": "OBSERVED",
+    "derived_indices": "CALCULATED"
+  },
+  "scenes_processed": [
+    {
+      "id": "S2A_44PMV_20210530_1_L2A",
+      "date": "2021-05-30",
+      "cloud_cover": 0.21
+    },
+    {
+      "id": "S2A_44PMV_20220405_0_L2A",
+      "date": "2022-04-05",
+      "cloud_cover": 4.85
+    },
+    {
+      "id": "S2A_44PMV_20230520_0_L2A",
+      "date": "2023-05-20",
+      "cloud_cover": 3.14
+    },
+    {
+      "id": "S2B_44PMV_20240429_0_L2A",
+      "date": "2024-04-29",
+      "cloud_cover": 3.79
+    }
+  ]
+}

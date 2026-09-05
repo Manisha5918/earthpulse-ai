@@ -1,0 +1,35 @@
+{
+  "dataset_name": "NASA POWER Daily Meteorology (Chennai MVP)",
+  "dataset_id": "nasa_power_point_daily_t2m_prectotcorr",
+  "provider": "NASA Langley Research Center",
+  "api_endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+  "parameters": {
+    "T2M": {
+      "long_name": "Temperature at 2 Meters",
+      "units": "\u00b0C",
+      "provenance_type": "OBSERVED"
+    },
+    "PRECTOTCORR": {
+      "long_name": "Precipitation Corrected",
+      "units": "mm/day",
+      "provenance_type": "OBSERVED"
+    }
+  },
+  "spatial_coverage": {
+    "target": "Chennai, Tamil Nadu, India",
+    "latitude": 13.0827,
+    "longitude": 80.2707,
+    "crs": "EPSG:4326 (WGS84)"
+  },
+  "temporal_coverage": {
+    "start_date": "2021-01-01",
+    "end_date": "2024-12-31",
+    "cadence": "daily",
+    "total_days": 1461,
+    "gaps": 0
+  },
+  "authentication_required": false,
+  "license": "NASA Open Data Policy (Public Domain / CC0)",
+  "provenance_type": "OBSERVED",
+  "source_url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,PRECTOTCORR&community=RE&longitude=80.2707&latitude=13.0827&start=20210101&end=20241231&format=JSON"
+}

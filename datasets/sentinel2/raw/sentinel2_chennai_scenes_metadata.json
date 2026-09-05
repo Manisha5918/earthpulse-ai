@@ -1,0 +1,82 @@
+{
+  "stac_catalog_url": "https://earth-search.aws.element84.com/v1/search",
+  "query_target": "Chennai, Tamil Nadu, India (MGRS-44PMV)",
+  "bounding_box": [
+    80.1,
+    12.85,
+    80.35,
+    13.25
+  ],
+  "extracted_at": "2026-09-03T05:54:26.734962+00:00",
+  "provenance_type": "OBSERVED",
+  "scenes": [
+    {
+      "scene_id": "S2A_44PMV_20210530_1_L2A",
+      "date": "2021-05-30",
+      "datetime": "2021-05-30T05:15:13.736000Z",
+      "cloud_cover_pct": 0.213105,
+      "tile_id": "MGRS-44PMV",
+      "platform": "sentinel-2a",
+      "crs": "EPSG:32644 (UTM Zone 44N)",
+      "spatial_resolution": "10m/20m native (160m analytical overview)",
+      "assets": {
+        "B04": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2021/5/S2A_44PMV_20210530_1_L2A/B04.tif",
+        "B08": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2021/5/S2A_44PMV_20210530_1_L2A/B08.tif",
+        "B03": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2021/5/S2A_44PMV_20210530_1_L2A/B03.tif",
+        "B11": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2021/5/S2A_44PMV_20210530_1_L2A/B11.tif",
+        "SCL": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2021/5/S2A_44PMV_20210530_1_L2A/SCL.tif"
+      }
+    },
+    {
+      "scene_id": "S2A_44PMV_20220405_0_L2A",
+      "date": "2022-04-05",
+      "datetime": "2022-04-05T05:15:14.205000Z",
+      "cloud_cover_pct": 4.845724,
+      "tile_id": "MGRS-44PMV",
+      "platform": "sentinel-2a",
+      "crs": "EPSG:32644 (UTM Zone 44N)",
+      "spatial_resolution": "10m/20m native (160m analytical overview)",
+      "assets": {
+        "B04": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2022/4/S2A_44PMV_20220405_0_L2A/B04.tif",
+        "B08": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2022/4/S2A_44PMV_20220405_0_L2A/B08.tif",
+        "B03": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2022/4/S2A_44PMV_20220405_0_L2A/B03.tif",
+        "B11": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2022/4/S2A_44PMV_20220405_0_L2A/B11.tif",
+        "SCL": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2022/4/S2A_44PMV_20220405_0_L2A/SCL.tif"
+      }
+    },
+    {
+      "scene_id": "S2A_44PMV_20230520_0_L2A",
+      "date": "2023-05-20",
+      "datetime": "2023-05-20T05:15:15.299000Z",
+      "cloud_cover_pct": 3.14068,
+      "tile_id": "MGRS-44PMV",
+      "platform": "sentinel-2a",
+      "crs": "EPSG:32644 (UTM Zone 44N)",
+      "spatial_resolution": "10m/20m native (160m analytical overview)",
+      "assets": {
+        "B04": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2023/5/S2A_44PMV_20230520_0_L2A/B04.tif",
+        "B08": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2023/5/S2A_44PMV_20230520_0_L2A/B08.tif",
+        "B03": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2023/5/S2A_44PMV_20230520_0_L2A/B03.tif",
+        "B11": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2023/5/S2A_44PMV_20230520_0_L2A/B11.tif",
+        "SCL": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2023/5/S2A_44PMV_20230520_0_L2A/SCL.tif"
+      }
+    },
+    {
+      "scene_id": "S2B_44PMV_20240429_0_L2A",
+      "date": "2024-04-29",
+      "datetime": "2024-04-29T05:15:12.470000Z",
+      "cloud_cover_pct": 3.791182,
+      "tile_id": "MGRS-44PMV",
+      "platform": "sentinel-2b",
+      "crs": "EPSG:32644 (UTM Zone 44N)",
+      "spatial_resolution": "10m/20m native (160m analytical overview)",
+      "assets": {
+        "B04": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2024/4/S2B_44PMV_20240429_0_L2A/B04.tif",
+        "B08": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2024/4/S2B_44PMV_20240429_0_L2A/B08.tif",
+        "B03": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2024/4/S2B_44PMV_20240429_0_L2A/B03.tif",
+        "B11": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2024/4/S2B_44PMV_20240429_0_L2A/B11.tif",
+        "SCL": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/P/MV/2024/4/S2B_44PMV_20240429_0_L2A/SCL.tif"
+      }
+    }
+  ]
+}
