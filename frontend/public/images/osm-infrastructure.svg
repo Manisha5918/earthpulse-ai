@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-osm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2E1065" />
+      <stop offset="50%" stop-color="#4C1D95" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <pattern id="osm-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#C084FC" stroke-width="0.5" stroke-opacity="0.2" />
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="600" height="360" rx="16" fill="url(#bg-grad-osm)" />
+  <rect width="600" height="360" rx="16" fill="url(#osm-grid)" />
+
+  <!-- Road Network Vector Hierarchy -->
+  <!-- Primary Arterials / Expressways (Mount Road / GST Road / OMR) -->
+  <g stroke="#C084FC" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 50 320 C 150 240, 250 180, 420 80" />
+    <path d="M 220 340 C 260 220, 320 160, 520 60" />
+    <path d="M 80 80 C 200 120, 360 220, 480 320" />
+  </g>
+
+  <!-- Secondary Arterials -->
+  <g stroke="#A855F7" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M 120 40 L 120 320" />
+    <path d="M 240 40 L 240 320" />
+    <path d="M 360 40 L 360 320" />
+    <path d="M 480 40 L 480 320" />
+    <path d="M 40 120 L 560 120" />
+    <path d="M 40 220 L 560 220" />
+  </g>
+
+  <!-- Urban Building Footprint Vector Polygons -->
+  <g fill="#7E22CE" stroke="#D8B4FE" stroke-width="0.75" opacity="0.8">
+    <rect x="140" y="140" width="22" height="18" rx="2" />
+    <rect x="170" y="140" width="16" height="24" rx="2" />
+    <rect x="140" y="165" width="28" height="15" rx="2" />
+    <rect x="180" y="170" width="20" height="20" rx="2" />
+
+    <rect x="260" y="135" width="30" height="22" rx="2" />
+    <rect x="295" y="140" width="25" height="18" rx="2" />
+    <rect x="260" y="165" width="20" height="25" rx="2" />
+    <rect x="285" y="170" width="35" height="20" rx="2" />
+
+    <rect x="380" y="235" width="28" height="24" rx="2" />
+    <rect x="415" y="240" width="22" height="28" rx="2" />
+  </g>
+
+  <!-- Transit Nodes & POIs -->
+  <g fill="#F472B6" stroke="#FFFFFF" stroke-width="1.5">
+    <circle cx="250" cy="180" r="6" />
+    <circle cx="340" cy="150" r="5" />
+    <circle cx="420" cy="80" r="6" />
+    <circle cx="160" cy="240" r="5" />
+  </g>
+
+  <!-- Node Labels -->
+  <text x="262" y="184" fill="#FDF4FF" font-family="monospace" font-size="9" font-weight="bold">TRANSIT HUB</text>
+  <text x="432" y="84" fill="#FDF4FF" font-family="monospace" font-size="9" font-weight="bold">INDUSTRIAL CORRIDOR</text>
+
+  <!-- Telemetry HUD Badges -->
+  <g transform="translate(24, 28)">
+    <rect width="216" height="24" rx="12" fill="#0F172A" fill-opacity="0.85" stroke="#7E22CE" stroke-width="1" />
+    <circle cx="12" cy="12" r="4" fill="#C084FC" />
+    <text x="24" y="16" fill="#FAF5FF" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" letter-spacing="0.5">OPENSTREETMAP INFRASTRUCTURE</text>
+  </g>
+
+  <g transform="translate(24, 305)">
+    <rect width="280" height="30" rx="6" fill="#0F172A" fill-opacity="0.9" stroke="#334155" stroke-width="1" />
+    <text x="12" y="19" fill="#94A3B8" font-family="monospace" font-size="10">ROADS: <tspan fill="#C084FC" font-weight="bold">5,772 km</tspan> | BUILDINGS: <tspan fill="#F472B6" font-weight="bold">236,154</tspan></text>
+  </g>
+
+  <g transform="translate(370, 305)">
+    <rect width="206" height="30" rx="6" fill="#0F172A" fill-opacity="0.9" stroke="#334155" stroke-width="1" />
+    <text x="12" y="19" fill="#94A3B8" font-family="monospace" font-size="10">DENSITY: <tspan fill="#34D399" font-weight="bold">12.03 km/km²</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hero-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090D16" />
+      <stop offset="60%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#022C22" />
+    </linearGradient>
+    <radialGradient id="earth-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.3" />
+      <stop offset="60%" stop-color="#065F46" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="scan-cone" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.05" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="450" rx="16" fill="url(#hero-bg)" />
+
+  <!-- Coordinate Grid & Stars -->
+  <g stroke="#334155" stroke-width="0.5" stroke-dasharray="2 4" opacity="0.3">
+    <line x1="100" y1="0" x2="100" y2="450" />
+    <line x1="250" y1="0" x2="250" y2="450" />
+    <line x1="400" y1="0" x2="400" y2="450" />
+    <line x1="550" y1="0" x2="550" y2="450" />
+    <line x1="700" y1="0" x2="700" y2="450" />
+    <line x1="0" y1="90" x2="800" y2="90" />
+    <line x1="0" y1="180" x2="800" y2="180" />
+    <line x1="0" y1="270" x2="800" y2="270" />
+    <line x1="0" y1="360" x2="800" y2="360" />
+  </g>
+
+  <!-- Stylized Earth Curvature (Subcontinent Regional Horizon) -->
+  <ellipse cx="400" cy="550" rx="420" ry="260" fill="url(#earth-glow)" />
+  <ellipse cx="400" cy="550" rx="400" ry="240" fill="#042F2E" stroke="#059669" stroke-width="2" />
+
+  <!-- Coastline & Regional Boundary Contour -->
+  <path d="M 220 380 Q 280 320 340 340 T 460 300 T 560 330 T 650 400" stroke="#34D399" stroke-width="2.5" fill="none" opacity="0.8" />
+  <path d="M 240 390 Q 300 335 360 355 T 480 315 T 580 345 T 670 415" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="4 4" fill="none" opacity="0.6" />
+
+  <!-- 16 Analytical Cell Grid (0.05° Resolution) Projected on Chennai Pilot Region -->
+  <g transform="translate(320, 240)" opacity="0.85">
+    <!-- Grid Cells -->
+    <rect x="0" y="0" width="35" height="25" rx="3" fill="#065F46" stroke="#34D399" stroke-width="1" />
+    <rect x="40" y="0" width="35" height="25" rx="3" fill="#065F46" stroke="#34D399" stroke-width="1" />
+    <rect x="80" y="0" width="35" height="25" rx="3" fill="#047857" stroke="#34D399" stroke-width="1" />
+    <rect x="120" y="0" width="35" height="25" rx="3" fill="#059669" stroke="#6EE7B7" stroke-width="1.5" />
+
+    <rect x="0" y="30" width="35" height="25" rx="3" fill="#064E3B" stroke="#10B981" stroke-width="1" />
+    <rect x="40" y="30" width="35" height="25" rx="3" fill="#047857" stroke="#34D399" stroke-width="1" />
+    <rect x="80" y="30" width="35" height="25" rx="3" fill="#059669" stroke="#34D399" stroke-width="1" />
+    <rect x="120" y="30" width="35" height="25" rx="3" fill="#D97706" fill-opacity="0.4" stroke="#F59E0B" stroke-width="2" />
+
+    <rect x="0" y="60" width="35" height="25" rx="3" fill="#065F46" stroke="#34D399" stroke-width="1" />
+    <rect x="40" y="60" width="35" height="25" rx="3" fill="#047857" stroke="#34D399" stroke-width="1" />
+    <rect x="80" y="60" width="35" height="25" rx="3" fill="#D97706" fill-opacity="0.5" stroke="#F59E0B" stroke-width="2" />
+    <rect x="120" y="60" width="35" height="25" rx="3" fill="#059669" stroke="#34D399" stroke-width="1" />
+  </g>
+
+  <!-- Satellite Scanning Beam from Orbit -->
+  <polygon points="400,60 300,340 500,340" fill="url(#scan-cone)" />
+
+  <!-- Orbiting Multi-Sensor Satellite -->
+  <g transform="translate(400, 60)">
+    <!-- Solar Panels -->
+    <rect x="-80" y="-12" width="55" height="24" rx="2" fill="#0369A1" stroke="#38BDF8" stroke-width="1.5" />
+    <line x1="-60" y1="-12" x2="-60" y2="12" stroke="#38BDF8" stroke-width="0.5" />
+    <line x1="-40" y1="-12" x2="-40" y2="12" stroke="#38BDF8" stroke-width="0.5" />
+
+    <rect x="25" y="-12" width="55" height="24" rx="2" fill="#0369A1" stroke="#38BDF8" stroke-width="1.5" />
+    <line x1="45" y1="-12" x2="45" y2="12" stroke="#38BDF8" stroke-width="0.5" />
+    <line x1="65" y1="-12" x2="65" y2="12" stroke="#38BDF8" stroke-width="0.5" />
+
+    <!-- Satellite Body -->
+    <rect x="-24" y="-18" width="48" height="36" rx="6" fill="#F1F5F9" stroke="#0F172A" stroke-width="2" />
+    <circle cx="0" cy="0" r="8" fill="#059669" stroke="#34D399" stroke-width="1.5" />
+    <circle cx="0" cy="0" r="3" fill="#FFFFFF" />
+
+    <!-- Optical Sensor Lens & Laser -->
+    <polygon points="-8,18 8,18 12,28 -12,28" fill="#1E293B" />
+    <line x1="0" y1="28" x2="0" y2="280" stroke="#34D399" stroke-width="2" stroke-dasharray="6 4" opacity="0.8" />
+  </g>
+
+  <!-- Target Pin Marker -->
+  <g transform="translate(435, 290)">
+    <circle cx="0" cy="0" r="8" fill="#F59E0B" fill-opacity="0.3" stroke="#F59E0B" stroke-width="1.5" />
+    <circle cx="0" cy="0" r="3" fill="#FEF08A" />
+    <rect x="15" y="-12" width="130" height="24" rx="4" fill="#0F172A" fill-opacity="0.9" stroke="#F59E0B" stroke-width="1" />
+    <text x="24" y="4" fill="#FEF3C7" font-family="monospace" font-size="9" font-weight="bold">CHENNAI (IN-TN-CHE)</text>
+  </g>
+
+  <!-- HUD Telemetry Badges -->
+  <g transform="translate(30, 30)">
+    <rect width="260" height="28" rx="14" fill="#0F172A" fill-opacity="0.9" stroke="#059669" stroke-width="1.5" />
+    <circle cx="14" cy="14" r="4" fill="#10B981" />
+    <text x="26" y="18" fill="#ECFDF5" font-family="system-ui, sans-serif" font-size="11" font-weight="bold" letter-spacing="0.5">EARTHPULSE CONSTELLATION</text>
+  </g>
+
+  <g transform="translate(30, 385)">
+    <rect width="280" height="34" rx="6" fill="#0F172A" fill-opacity="0.92" stroke="#334155" stroke-width="1" />
+    <text x="12" y="21" fill="#94A3B8" font-family="monospace" font-size="10">COORDINATES: <tspan fill="#34D399" font-weight="bold">13.0827°N, 80.2707°E</tspan></text>
+  </g>
+
+  <g transform="translate(530, 385)">
+    <rect width="240" height="34" rx="6" fill="#0F172A" fill-opacity="0.92" stroke="#334155" stroke-width="1" />
+    <text x="12" y="21" fill="#94A3B8" font-family="monospace" font-size="10">PROVENANCE: <tspan fill="#60A5FA" font-weight="bold">SHA-256 AUDITED</tspan></text>
+  </g>
+</svg>

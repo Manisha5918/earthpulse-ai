@@ -1,0 +1,7 @@
+# Keep the Docker build context small: never ship local install/build output.
+node_modules
+.next
+out
+build
+*.log
+.git

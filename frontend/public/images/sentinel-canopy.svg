@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-sentinel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064E3B" />
+      <stop offset="50%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="canopy-glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#059669" stop-opacity="0.2" />
+    </linearGradient>
+    <radialGradient id="satellite-beam" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#065F46" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid-10m" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#34D399" stroke-width="0.5" stroke-opacity="0.25" />
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="600" height="360" rx="16" fill="url(#bg-grad-sentinel)" />
+  <rect width="600" height="360" rx="16" fill="url(#grid-10m)" />
+
+  <!-- Scanning Beam -->
+  <polygon points="300,30 100,330 500,330" fill="url(#satellite-beam)" />
+
+  <!-- Terrain & NDVI Contours -->
+  <path d="M 60 280 Q 140 210 220 250 T 380 230 T 540 270 L 540 340 L 60 340 Z" fill="#065F46" opacity="0.6" />
+  <path d="M 90 290 Q 180 230 270 270 T 430 250 T 520 285 L 520 340 L 90 340 Z" fill="url(#canopy-glow)" />
+  <path d="M 140 310 Q 230 260 320 290 T 470 275 L 470 340 L 140 340 Z" fill="#6EE7B7" opacity="0.5" />
+
+  <!-- Coastline & Water Boundary -->
+  <path d="M 460 220 Q 480 270 510 330" stroke="#38BDF8" stroke-width="3" stroke-dasharray="4 4" fill="none" />
+  <text x="490" y="325" fill="#38BDF8" font-family="monospace" font-size="9" letter-spacing="1">BAY OF BENGAL</text>
+
+  <!-- NDVI Sample Grid Cells -->
+  <rect x="180" y="160" width="45" height="45" rx="4" fill="#10B981" fill-opacity="0.3" stroke="#34D399" stroke-width="1.5" />
+  <text x="186" y="185" fill="#ECFDF5" font-family="monospace" font-size="10" font-weight="bold">0.160</text>
+  <text x="186" y="197" fill="#A7F3D0" font-family="monospace" font-size="7">NDVI T0</text>
+
+  <rect x="235" y="160" width="45" height="45" rx="4" fill="#047857" fill-opacity="0.4" stroke="#10B981" stroke-width="1.5" />
+  <text x="241" y="185" fill="#ECFDF5" font-family="monospace" font-size="10" font-weight="bold">0.186</text>
+  <text x="241" y="197" fill="#A7F3D0" font-family="monospace" font-size="7">BASELINE</text>
+
+  <!-- Sentinel-2 Satellite Graphic in Space -->
+  <g transform="translate(300, 45)">
+    <!-- Solar Panels -->
+    <rect x="-70" y="-10" width="45" height="20" rx="2" fill="#1E293B" stroke="#38BDF8" stroke-width="1" />
+    <line x1="-55" y1="-10" x2="-55" y2="10" stroke="#38BDF8" stroke-width="0.5" />
+    <line x1="-40" y1="-10" x2="-40" y2="10" stroke="#38BDF8" stroke-width="0.5" />
+
+    <rect x="25" y="-10" width="45" height="20" rx="2" fill="#1E293B" stroke="#38BDF8" stroke-width="1" />
+    <line x1="40" y1="-10" x2="40" y2="10" stroke="#38BDF8" stroke-width="0.5" />
+    <line x1="55" y1="-10" x2="55" y2="10" stroke="#38BDF8" stroke-width="0.5" />
+
+    <!-- Satellite Core Body -->
+    <rect x="-20" y="-15" width="40" height="30" rx="4" fill="#E2E8F0" stroke="#0F172A" stroke-width="1.5" />
+    <circle cx="0" cy="0" r="6" fill="#047857" stroke="#34D399" stroke-width="1" />
+    <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+
+    <!-- Optics Sensor Aperture -->
+    <polygon points="-6,15 6,15 10,24 -10,24" fill="#334155" />
+  </g>
+
+  <!-- HUD Badges & Labels -->
+  <g transform="translate(24, 28)">
+    <rect width="180" height="24" rx="12" fill="#0F172A" fill-opacity="0.8" stroke="#047857" stroke-width="1" />
+    <circle cx="12" cy="12" r="4" fill="#10B981" />
+    <text x="24" y="16" fill="#ECFDF5" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" letter-spacing="0.5">ESA SENTINEL-2 MSI (10m)</text>
+  </g>
+
+  <g transform="translate(24, 305)">
+    <rect width="230" height="30" rx="6" fill="#0F172A" fill-opacity="0.85" stroke="#334155" stroke-width="1" />
+    <text x="12" y="19" fill="#94A3B8" font-family="monospace" font-size="10">CANOPY Z-SCORE: <tspan fill="#F59E0B" font-weight="bold">-2.17σ (STRESS)</tspan></text>
+  </g>
+
+  <g transform="translate(420, 28)">
+    <rect width="156" height="24" rx="12" fill="#0F172A" fill-opacity="0.8" stroke="#334155" stroke-width="1" />
+    <text x="12" y="16" fill="#34D399" font-family="monospace" font-size="9" font-weight="bold">SPECTRAL: B4 RED + B8 NIR</text>
+  </g>
+</svg>

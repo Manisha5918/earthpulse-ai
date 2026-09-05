@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="p-policy-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4C1D95" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="240" rx="12" fill="url(#p-policy-bg)" />
+  <!-- Cryptographic Provenance Blocks & Security Shield -->
+  <g transform="translate(200, 120)">
+    <!-- Security Shield -->
+    <path d="M 0 -45 L 35 -30 L 35 15 C 35 35 0 50 0 50 C 0 50 -35 35 -35 15 L -35 -30 Z" fill="#6D28D9" stroke="#C084FC" stroke-width="2" />
+    <path d="M -10 5 L -2 15 L 14 -5" stroke="#ECFDF5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  </g>
+  <!-- Evidence Block Nodes -->
+  <g transform="translate(60, 110)">
+    <rect x="0" y="0" width="70" height="30" rx="4" fill="#1E1B4B" stroke="#A855F7" stroke-width="1.5" />
+    <text x="8" y="19" fill="#E9D5FF" font-family="monospace" font-size="8">EVID-001</text>
+  </g>
+  <g transform="translate(270, 110)">
+    <rect x="0" y="0" width="70" height="30" rx="4" fill="#1E1B4B" stroke="#A855F7" stroke-width="1.5" />
+    <text x="8" y="19" fill="#E9D5FF" font-family="monospace" font-size="8">SHA-256</text>
+  </g>
+  <!-- Connecting Provenance Hashes -->
+  <line x1="130" y1="125" x2="165" y2="125" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="3 3" />
+  <line x1="235" y1="125" x2="270" y2="125" stroke="#C084FC" stroke-width="1.5" stroke-dasharray="3 3" />
+  <!-- Badge -->
+  <rect x="20" y="20" width="180" height="24" rx="12" fill="#0F172A" fill-opacity="0.85" stroke="#A855F7" stroke-width="1" />
+  <text x="32" y="36" fill="#FAF5FF" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">AUDITABLE PROVENANCE</text>
+</svg>

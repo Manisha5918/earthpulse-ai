@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-nasa" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#082F49" />
+      <stop offset="50%" stop-color="#0369A1" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="temp-curve-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#0284C7" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="rain-bar-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="600" height="360" rx="16" fill="url(#bg-grad-nasa)" />
+
+  <!-- Atmospheric Pressure Isobar Wave Lines -->
+  <g stroke="#38BDF8" stroke-width="1" fill="none" opacity="0.25">
+    <path d="M 0 100 Q 150 60 300 110 T 600 80" />
+    <path d="M 0 150 Q 150 110 300 160 T 600 130" />
+    <path d="M 0 200 Q 150 160 300 210 T 600 180" />
+    <path d="M 0 250 Q 150 210 300 260 T 600 230" />
+  </g>
+
+  <!-- Rainfall Precipitation Bars (Monsoon & Pre-Monsoon Simulation) -->
+  <g transform="translate(60, 220)">
+    <!-- 12 Monthly/Quarterly Aggregated Bars -->
+    <rect x="0" y="-30" width="18" height="30" rx="2" fill="url(#rain-bar-grad)" opacity="0.7" />
+    <rect x="30" y="-15" width="18" height="15" rx="2" fill="url(#rain-bar-grad)" opacity="0.6" />
+    <rect x="60" y="-45" width="18" height="45" rx="2" fill="url(#rain-bar-grad)" opacity="0.8" />
+    <rect x="90" y="-20" width="18" height="20" rx="2" fill="url(#rain-bar-grad)" opacity="0.6" />
+    <rect x="120" y="-60" width="18" height="60" rx="2" fill="url(#rain-bar-grad)" opacity="0.85" />
+    <rect x="150" y="-95" width="18" height="95" rx="2" fill="url(#rain-bar-grad)" />
+    <rect x="180" y="-130" width="18" height="130" rx="2" fill="#93C5FD" />
+    <rect x="210" y="-110" width="18" height="110" rx="2" fill="url(#rain-bar-grad)" />
+    <rect x="240" y="-70" width="18" height="70" rx="2" fill="url(#rain-bar-grad)" opacity="0.85" />
+    <rect x="270" y="-40" width="18" height="40" rx="2" fill="url(#rain-bar-grad)" opacity="0.7" />
+    <rect x="300" y="-25" width="18" height="25" rx="2" fill="url(#rain-bar-grad)" opacity="0.6" />
+    <rect x="330" y="-10" width="18" height="10" rx="2" fill="url(#rain-bar-grad)" opacity="0.5" />
+    <!-- Baseline Line -->
+    <line x1="-10" y1="0" x2="360" y2="0" stroke="#64748B" stroke-width="1.5" />
+  </g>
+
+  <!-- Surface Temperature Trend Curve (T2M) -->
+  <path d="M 60 170 C 120 150, 180 120, 240 110 S 360 140, 420 160 S 480 180, 540 175" stroke="#F59E0B" stroke-width="3" fill="none" />
+  <path d="M 60 170 C 120 150, 180 120, 240 110 S 360 140, 420 160 S 480 180, 540 175 L 540 220 L 60 220 Z" fill="url(#temp-curve-grad)" />
+
+  <!-- Data Point Highlighters -->
+  <circle cx="240" cy="110" r="5" fill="#EF4444" stroke="#FFFFFF" stroke-width="2" />
+  <text x="250" y="105" fill="#FEF08A" font-family="monospace" font-size="9" font-weight="bold">APRIL PEAK: 34.2°C</text>
+
+  <circle cx="480" cy="90" r="5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+  <text x="490" y="85" fill="#E0F2FE" font-family="monospace" font-size="9" font-weight="bold">OCT MONSOON</text>
+
+  <!-- Telemetry HUD Badges -->
+  <g transform="translate(24, 28)">
+    <rect width="210" height="24" rx="12" fill="#0F172A" fill-opacity="0.85" stroke="#0284C7" stroke-width="1" />
+    <circle cx="12" cy="12" r="4" fill="#38BDF8" />
+    <text x="24" y="16" fill="#E0F2FE" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" letter-spacing="0.5">NASA POWER METEOROLOGY</text>
+  </g>
+
+  <g transform="translate(24, 305)">
+    <rect width="270" height="30" rx="6" fill="#0F172A" fill-opacity="0.9" stroke="#334155" stroke-width="1" />
+    <text x="12" y="19" fill="#94A3B8" font-family="monospace" font-size="10">1,461 DAILY RECORDS: <tspan fill="#38BDF8" font-weight="bold">T2M + PRECTOT</tspan></text>
+  </g>
+
+  <g transform="translate(360, 305)">
+    <rect width="216" height="30" rx="6" fill="#0F172A" fill-opacity="0.9" stroke="#334155" stroke-width="1" />
+    <text x="12" y="19" fill="#94A3B8" font-family="monospace" font-size="10">NON-CAUSAL: <tspan fill="#F59E0B" font-weight="bold">CONTEXT ONLY</tspan></text>
+  </g>
+</svg>

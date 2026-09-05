@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Node / Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+.npm
+*.tsbuildinfo
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# Large raster and raw geospatial data
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/features/*
+!data/features/.gitkeep
+data/cache/*
+!data/cache/.gitkeep
+backend/data/cache/*
+!backend/data/cache/.gitkeep
+backend/data/
+cache/
+# Immutable raw dataset archive (large, reproducible via pipeline scripts)
+datasets/*
+!datasets/README.md
+!datasets/.gitkeep
+*.tif
+*.tiff
+*.nc
+*.h5
+*.hdf
+*.tar.gz
+*.zip
+
+# Database
+*.sqlite
+*.sqlite3
+pgdata/
+
+# IDEs and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

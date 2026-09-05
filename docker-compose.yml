@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: earthpulse-postgis
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-earthpulse}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-earthpulse_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-earthpulse_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U earthpulse -d earthpulse_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: earthpulse-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-earthpulse}:${POSTGRES_PASSWORD:-earthpulse_dev_password}@db:5432/${POSTGRES_DB:-earthpulse_db}
+      - ENVIRONMENT=development
+      - CORS_ORIGINS=["http://localhost:3000","http://127.0.0.1:3000"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./data:/data
+      # Backend services resolve data via <BASE_DIR>/datasets/... which is
+      # /datasets/... inside the container, so the immutable archive must be
+      # mounted there (read-only). Without it, baselines/change-profile/
+      # narrative return empty and POST /intelligence fails with 500.
+      - ./datasets:/datasets:ro
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # NEXT_PUBLIC_* values are inlined by Next.js at build time,
+        # so the API base URL must be passed as a build arg (not only
+        # as runtime environment) for the browser to reach the backend.
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000/api/v1}
+    container_name: earthpulse-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:

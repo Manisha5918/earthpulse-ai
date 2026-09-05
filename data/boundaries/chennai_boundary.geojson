@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "name": "chennai_metropolitan_boundary",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "code": "IN-TN-CHE",
+        "name": "Chennai Metropolitan Area",
+        "state": "Tamil Nadu",
+        "country": "India",
+        "admin_level": "DISTRICT",
+        "area_sqkm": 426.0
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [80.10, 12.85],
+            [80.35, 12.85],
+            [80.35, 13.25],
+            [80.10, 13.25],
+            [80.10, 12.85]
+          ]
+        ]
+      }
+    }
+  ]
+}
