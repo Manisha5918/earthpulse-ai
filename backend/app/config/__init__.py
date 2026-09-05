@@ -18,7 +18,12 @@ class Settings(BaseSettings):
     )
     
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://earthpulse-ai-ten.vercel.app",
+        "*"
+    ]
     
     # Data Providers
     NASA_POWER_API_BASE: str = "https://power.larc.nasa.gov/api/temporal"
