@@ -41,10 +41,17 @@ export function ChangeScoreCard({ changeScore }) {
     return "text-emerald-700 bg-emerald-50 border-emerald-200";
   };
 
-  const getProgressBarClass = (val) => {
+  const getProgressBarClass = (key, val) => {
+    // Data completeness and temporal alignment: 100% is excellent, render in rich emerald green
+    if (key === "data_completeness" || key === "temporal_compatibility") {
+      if (val >= 0.8) return "bg-emerald-600";
+      if (val >= 0.5) return "bg-teal-600";
+      return "bg-amber-500";
+    }
+    // Anomaly magnitude & spatial deviation: elevated values render in amber/rose
     if (val >= 0.6) return "bg-rose-500";
     if (val >= 0.35) return "bg-amber-500";
-    return "bg-emerald-500";
+    return "bg-emerald-600";
   };
 
   const compLabels = {
@@ -56,29 +63,29 @@ export function ChangeScoreCard({ changeScore }) {
   };
 
   return (
-    <div className="p-5 bg-white border border-slate-200/80 rounded-xl shadow-sm space-y-4">
+    <div className="p-5 bg-white border border-slate-200/70 hover:border-slate-300/80 rounded-2xl shadow-xs space-y-4 transition-all">
       {/* Card Header */}
       <div className="flex items-center justify-between pb-3 border-b border-slate-100">
         <div className="space-y-0.5">
-          <span className="text-sm font-sans font-semibold text-slate-900 flex items-center gap-1.5">
-            <Gauge className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Regional change score</span>
+          <span className="text-sm font-display font-bold text-slate-900 flex items-center gap-1.5">
+            <Gauge className="w-4 h-4 text-emerald-700" />
+            <span>Regional Change Score</span>
           </span>
           <div className="text-[11px] text-slate-500 font-sans">
-            Engine: <strong className="text-slate-800">{changeScore.scoring_version || "phase6-v1"}</strong> · Weighting: <strong className="text-slate-800 font-mono">{changeScore.weighting_method || "EXPERT_CONFIGURED"}</strong>
+            Engine: <strong className="text-slate-800">{changeScore.scoring_version || "phase6-v1"}</strong> · Weighting: <strong className="text-emerald-900 font-mono font-semibold">{changeScore.weighting_method || "EXPERT_CONFIGURED"}</strong>
           </div>
         </div>
         <ProvenanceBadge type={changeScore.provenance || "CALCULATED"} size="xs" />
       </div>
 
       {/* Main Score Readout */}
-      <div className="flex items-center gap-5 p-4 sm:p-5 bg-slate-50 border border-slate-200/80 rounded-xl">
-        <div className={clsx("w-24 h-24 border rounded-xl flex flex-col items-center justify-center font-mono flex-shrink-0 shadow-xs", getScoreBadgeClass(score))}>
-          <span className="text-4xl font-bold tracking-tight">{score.toFixed(1)}</span>
-          <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono">/ 100</span>
+      <div className="flex items-center gap-5 p-4 sm:p-5 bg-gradient-to-r from-emerald-50/40 via-white to-slate-50 border border-emerald-200/80 rounded-xl">
+        <div className={clsx("w-24 h-24 border-2 rounded-xl flex flex-col items-center justify-center font-mono flex-shrink-0 shadow-xs", getScoreBadgeClass(score))}>
+          <span className="text-4xl font-extrabold tracking-tight">{score.toFixed(1)}</span>
+          <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono font-semibold">/ 100</span>
         </div>
         <div className="space-y-1">
-          <div className="font-display font-bold text-slate-900 text-base">
+          <div className="font-display font-extrabold text-slate-900 text-base">
             {score >= 60 ? "Elevated Regional Change" : score >= 35 ? "Moderate Telemetry Variation" : "Nominal Regional Baseline"}
           </div>
           <p className="text-xs text-slate-600 leading-relaxed font-sans">
@@ -113,7 +120,7 @@ export function ChangeScoreCard({ changeScore }) {
                   </div>
                   <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
                     <div
-                      className={clsx("h-full rounded-full transition-all duration-300", getProgressBarClass(normVal))}
+                      className={clsx("h-full rounded-full transition-all duration-300", getProgressBarClass(key, normVal))}
                       style={{ width: `${normVal * 100}%` }}
                     />
                   </div>

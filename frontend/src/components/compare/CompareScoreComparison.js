@@ -18,7 +18,7 @@ export function CompareScoreComparison({ scoreA, scoreB, targetA, targetB }) {
   const diff = (hasA && hasB) ? (scoreValA - scoreValB) : null;
 
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 transition-all">
       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
         <div className="space-y-0.5">
           <div className="text-sm font-sans font-semibold text-slate-900 flex items-center gap-2">
@@ -37,7 +37,9 @@ export function CompareScoreComparison({ scoreA, scoreB, targetA, targetB }) {
         <div className="p-5 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
           <div className="flex justify-between text-xs font-mono text-slate-500">
             <span className="font-semibold">LOCATION A ({targetA})</span>
-            <span className="text-emerald-800 font-semibold px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px]">
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+              hasA ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-amber-50 text-amber-800 border-amber-200"
+            }`}>
               {hasA ? "VALID" : "UNAVAILABLE"}
             </span>
           </div>
@@ -54,16 +56,24 @@ export function CompareScoreComparison({ scoreA, scoreB, targetA, targetB }) {
           <div className="flex justify-between text-xs font-mono text-slate-500">
             <span className="font-semibold">LOCATION B ({targetB})</span>
             <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
-              hasB ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-amber-50 text-amber-800 border-amber-200"
+              hasB ? "bg-emerald-50 text-emerald-800 border-emerald-200" :
+              targetB === "BLR_TEST" ? "bg-amber-50 text-amber-800 border-amber-200" :
+              "bg-slate-100 text-slate-600 border-slate-200"
             }`}>
-              {hasB ? "VALID" : "UNAVAILABLE"}
+              {hasB ? "VALID" : targetB === "BLR_TEST" ? "PROCESSING REQUIRED" : "UNAVAILABLE"}
             </span>
           </div>
-          <div className="text-4xl sm:text-5xl font-display font-bold text-slate-400">
+          <div className={`text-4xl sm:text-5xl font-display font-bold ${hasB ? "text-slate-900" : "text-slate-400"}`}>
             {hasB ? scoreValB.toFixed(1) : "N/A"} <span className="text-xs font-mono text-slate-400 font-normal">/ 100</span>
           </div>
           <p className="text-xs text-slate-600 leading-relaxed font-sans">
-            {hasB ? "Calculated across sensor signals." : "Regional profile required; no score available."}
+            {hasB
+              ? "Calculated across sensor signals."
+              : targetB === "BLR_TEST"
+              ? "Bengaluru ingestion pending. Ingestion of Sentinel-2 & VIIRS required before scoring."
+              : targetB === "LON_TEST"
+              ? "Outside India domain. No satellite scoring pipeline active."
+              : "Regional profile required; no score available."}
           </p>
         </div>
 
@@ -75,16 +85,21 @@ export function CompareScoreComparison({ scoreA, scoreB, targetA, targetB }) {
           </div>
           {diff !== null ? (
             <div className="space-y-2">
-              <div className="text-3xl font-display font-bold text-slate-900">
-                Δ = {diff > 0 ? `+${diff.toFixed(1)}` : diff.toFixed(1)} pts
+              <div className="text-3xl font-display font-bold text-slate-900 flex items-baseline gap-2">
+                <span>Δ = {diff > 0 ? `+${diff.toFixed(1)}` : diff.toFixed(1)}</span>
+                <span className="text-sm font-sans font-semibold text-emerald-700">pts</span>
               </div>
               <p className="text-xs text-slate-600 font-sans leading-relaxed">
-                Location A score is {Math.abs(diff).toFixed(1)} pts {diff > 0 ? "higher" : "lower"} than Location B.
+                {Math.abs(diff) < 0.05
+                  ? "Identical baseline profile score (0.0 pt difference)."
+                  : `Location A score is ${Math.abs(diff).toFixed(1)} pts ${diff > 0 ? "higher" : "lower"} than Location B.`}
               </p>
             </div>
           ) : (
             <div className="space-y-1.5 text-xs text-slate-700">
-              <div className="font-semibold font-mono text-slate-900">Comparison Unavailable</div>
+              <div className="font-semibold font-mono text-amber-800 flex items-center gap-1">
+                <span>Comparison Unavailable</span>
+              </div>
               <p className="text-xs text-slate-600 font-sans leading-relaxed">
                 Requires valid processed regional change scores for both target locations before computing delta.
               </p>

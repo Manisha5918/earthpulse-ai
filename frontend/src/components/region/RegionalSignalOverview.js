@@ -15,11 +15,12 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
   const [expandedDetails, setExpandedDetails] = useState(false);
   const [activeImageModal, setActiveImageModal] = useState(null);
 
-  const ndviB = baselines.ndvi || {};
-  const ndbiB = baselines.ndbi || {};
-  const viirsB = baselines.viirs_radiance || {};
-  const tempB = baselines.temperature_2m || {};
-  const precipB = baselines.precipitation || {};
+  const baseMap = baselines?.baselines || baselines || {};
+  const ndviB = baseMap.ndvi || {};
+  const ndbiB = baseMap.ndbi || {};
+  const viirsB = baseMap.viirs_radiance || {};
+  const tempB = baseMap.temperature_2m || {};
+  const precipB = baseMap.precipitation || {};
 
   // Latest VIIRS annual composite, taken from backend observations only.
   // Never a frozen value: missing data renders as N/A.
@@ -51,18 +52,18 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
       : "N/A";
 
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 transition-all">
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
-        <div className="space-y-0.5">
+        <div className="space-y-0.5 border-l-3 border-emerald-800 pl-3">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-emerald-600" />
-            <h2 className="text-sm font-sans font-semibold text-slate-900">
-              What the sensors observed
+            <Activity className="w-4 h-4 text-emerald-800" />
+            <h2 className="text-sm font-display font-bold text-slate-900">
+              What the Sensors Observed
             </h2>
           </div>
           <p className="text-xs text-slate-500 font-sans">
-            Vegetation, nighttime lights, weather and mapped infrastructure.
+            Vegetation canopy reflectance, nocturnal light radiance, daily meteorology, and mapped infrastructure.
           </p>
         </div>
 
@@ -70,10 +71,10 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
           <button
             type="button"
             onClick={() => setExpandedDetails(!expandedDetails)}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-sans font-medium flex items-center gap-1.5 transition-all"
+            className="px-3 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50/60 hover:bg-emerald-100 text-emerald-900 text-xs font-sans font-semibold flex items-center gap-1.5 transition-all shadow-xs"
           >
             <span>{expandedDetails ? "Hide Technical Details" : "View Technical Parameters"}</span>
-            {expandedDetails ? <ChevronUp className="w-3.5 h-3.5 text-slate-500" /> : <ChevronDown className="w-3.5 h-3.5 text-slate-500" />}
+            {expandedDetails ? <ChevronUp className="w-3.5 h-3.5 text-emerald-700" /> : <ChevronDown className="w-3.5 h-3.5 text-emerald-700" />}
           </button>
           <ProvenanceBadge type="OBSERVED" size="xs" />
         </div>
@@ -83,10 +84,10 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Card 1: Sentinel-2 NDVI */}
-        <div className="p-4 bg-slate-50/70 border border-slate-200/80 rounded-xl space-y-3 flex flex-col justify-between group">
+        <div className="p-4 bg-white border border-slate-200/80 hover:border-slate-300 rounded-xl space-y-3 flex flex-col justify-between group shadow-xs hover:shadow-sm transition-all">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-semibold uppercase text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              <span className="text-[10px] font-mono font-bold uppercase text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">
                 VEGETATION HEALTH
               </span>
               <button
@@ -98,7 +99,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
                   caption: "Subcontinental and regional multispectral vegetation canopy reflectance (B4 Red + B8 NIR). Green tones indicate robust canopy density, while pale/brown tones reflect dry or stressed vegetative cover relative to April baseline.",
                   stat: `Observed Mean: ${numOrNA(ndviB.mean, 4)}`
                 })}
-                className="text-emerald-700 hover:text-emerald-800 text-[11px] font-mono font-medium flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity"
+                className="text-emerald-700 hover:text-emerald-900 text-[11px] font-mono font-semibold flex items-center gap-1 opacity-90 hover:opacity-100 transition-opacity"
                 title="Inspect Satellite Scene"
               >
                 <ImageIcon className="w-3.5 h-3.5" />
@@ -115,7 +116,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
                 caption: "Subcontinental and regional multispectral vegetation canopy reflectance (B4 Red + B8 NIR). Green tones indicate robust canopy density, while pale/brown tones reflect dry or stressed vegetative cover relative to April baseline.",
                 stat: `Observed Mean: ${numOrNA(ndviB.mean, 4)}`
               })}
-              className="relative h-20 w-full rounded-lg overflow-hidden border border-slate-200 cursor-pointer bg-slate-950"
+              className="relative h-20 w-full rounded-lg overflow-hidden border border-emerald-200/80 cursor-pointer bg-slate-950"
             >
               <img
                 src="/images/india-vegetation-ndvi.jpg"
@@ -134,7 +135,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
                 Canopy Index (NDVI)
               </h3>
               <div className="flex items-baseline gap-2 pt-0.5">
-                <span className="text-2xl font-display font-bold text-slate-900">
+                <span className="text-2xl font-display font-bold text-emerald-900">
                   {numOrNA(ndviB.mean, 4)}
                 </span>
                 <span className="text-xs font-mono text-slate-500">mean</span>
@@ -147,7 +148,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
           </div>
 
           {expandedDetails && (
-            <div className="pt-2 border-t border-slate-200 font-mono text-[11px] space-y-1 text-slate-600">
+            <div className="pt-2 border-t border-emerald-200/70 font-mono text-[11px] space-y-1 text-slate-600">
               <div className="flex justify-between"><span>Std Dev:</span> <strong>{numOrNA(ndviB.stddev, 4)}</strong></div>
               <div className="flex justify-between"><span>Archive:</span> <strong>{countOrNA(ndviB.observation_count, "Scenes")}</strong></div>
               <div className="flex justify-between"><span>Semantics:</span> <strong className="text-emerald-800">MULTI_TEMPORAL</strong></div>
@@ -156,7 +157,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
         </div>
 
         {/* Card 2: Sentinel-2 NDBI */}
-        <div className="p-4 bg-slate-50/70 border border-slate-200/80 rounded-xl space-y-3 flex flex-col justify-between group">
+        <div className="p-4 bg-white border border-slate-200/80 hover:border-slate-300 rounded-xl space-y-3 flex flex-col justify-between group shadow-xs hover:shadow-sm transition-all">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-semibold uppercase text-sky-800 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
@@ -229,7 +230,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
         </div>
 
         {/* Card 3: VIIRS Nighttime Radiance */}
-        <div className="p-4 bg-slate-50/70 border border-slate-200/80 rounded-xl space-y-3 flex flex-col justify-between group">
+        <div className="p-4 bg-white border border-slate-200/80 hover:border-slate-300 rounded-xl space-y-3 flex flex-col justify-between group shadow-xs hover:shadow-sm transition-all">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-semibold uppercase text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
@@ -301,29 +302,29 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
           )}
         </div>
 
-        {/* Card 4: NASA POWER Weather (No forced photography, pure compact telemetry) */}
-        <div className="p-4 bg-slate-50/70 border border-slate-200/80 rounded-xl space-y-3 flex flex-col justify-between">
+        {/* Card 4: NASA POWER Weather */}
+        <div className="p-4 bg-white border border-slate-200/80 hover:border-slate-300 rounded-xl space-y-3 flex flex-col justify-between shadow-xs hover:shadow-sm transition-all">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-semibold uppercase text-sky-800 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
+              <span className="text-[10px] font-mono font-bold uppercase text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300">
                 DAILY METEOROLOGY
               </span>
-              <CloudSun className="w-3.5 h-3.5 text-slate-400" />
+              <CloudSun className="w-3.5 h-3.5 text-emerald-600" />
             </div>
 
             {/* Meteorological Telemetry Highlight Box */}
-            <div className="h-20 w-full rounded-lg border border-slate-200 bg-white p-2.5 flex flex-col justify-between text-xs font-mono">
+            <div className="h-20 w-full rounded-lg border border-emerald-200/80 bg-white p-2.5 flex flex-col justify-between text-xs font-mono">
               <div className="flex justify-between items-center text-slate-500 text-[11px]">
                 <span>Precipitation (Total):</span>
-                <span className="font-bold text-slate-900 font-mono">{precipTotalMm}</span>
+                <span className="font-bold text-emerald-900 font-mono">{precipTotalMm}</span>
               </div>
               <div className="flex justify-between items-center text-slate-500 text-[11px]">
                 <span>Temp Range:</span>
                 <span className="font-bold text-slate-900 font-mono">{tempB.min !== undefined && tempB.min !== null && tempB.max !== undefined && tempB.max !== null ? `${Number(tempB.min).toFixed(1)}°C – ${Number(tempB.max).toFixed(1)}°C` : "N/A"}</span>
               </div>
-              <div className="flex justify-between items-center text-emerald-800 text-[11px] pt-1 border-t border-slate-100">
+              <div className="flex justify-between items-center text-emerald-800 text-[11px] pt-1 border-t border-emerald-100">
                 <span>Record Depth:</span>
-                <span className="font-bold font-mono">{countOrNA(tempB.observation_count, "Days")}</span>
+                <span className="font-bold font-mono text-emerald-900">{countOrNA(tempB.observation_count, "Days")}</span>
               </div>
             </div>
 
@@ -332,7 +333,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
                 Surface Temperature
               </h3>
               <div className="flex items-baseline gap-2 pt-0.5">
-                <span className="text-2xl font-display font-bold text-slate-900">
+                <span className="text-2xl font-display font-bold text-emerald-900">
                   {tempB.mean !== undefined && tempB.mean !== null ? `${Number(tempB.mean).toFixed(1)}°C` : "N/A"}
                 </span>
                 <span className="text-xs font-mono text-slate-500">daily mean</span>
@@ -345,7 +346,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
           </div>
 
           {expandedDetails && (
-            <div className="pt-2 border-t border-slate-200 font-mono text-[11px] space-y-1 text-slate-600">
+            <div className="pt-2 border-t border-emerald-200/70 font-mono text-[11px] space-y-1 text-slate-600">
               <div className="flex justify-between"><span>Rainfall Total:</span> <strong>{precipTotalMm}</strong></div>
               <div className="flex justify-between"><span>Records:</span> <strong>{countOrNA(tempB.observation_count, "Days")}</strong></div>
               <div className="flex justify-between"><span>Confidence:</span> <strong className="text-emerald-800">HIGH (N={tempB.observation_count ?? "N/A"})</strong></div>
@@ -356,11 +357,11 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
       </div>
 
       {/* OSM Spatial Context Bar */}
-      <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-sans text-slate-600">
+      <div className="p-4 bg-emerald-50/50 border border-emerald-200/80 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-sans text-slate-700">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-slate-400" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
           <span>
-            <strong className="text-slate-900">OpenStreetMap Context Snapshot:</strong>{" "}
+            <strong className="text-emerald-950 font-bold">OpenStreetMap Context Snapshot:</strong>{" "}
             {hasOsmNumbers ? (
               <>{Number(osmRoads).toLocaleString("en-US", { maximumFractionDigits: 1 })} km road network ({numOrNA(osmDensity, 2)} km/km²), {Number(osmBuildings).toLocaleString("en-US")} mapped buildings{osmPois !== undefined && osmPois !== null ? `, and ${Number(osmPois).toLocaleString("en-US")} POIs` : ""}.</>
             ) : (
@@ -368,7 +369,7 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
             )}
           </span>
         </div>
-        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex-shrink-0">
+        <span className="text-[10px] font-mono text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded border border-emerald-300 uppercase tracking-wider flex-shrink-0 font-semibold">
           STATIC SPATIAL SNAPSHOT
         </span>
       </div>

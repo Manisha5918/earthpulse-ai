@@ -16,7 +16,8 @@ export async function getRegionalChangeProfile(regionId = "IN-TN-CHE") {
 }
 
 export async function getRegionalBaselines(regionId = "IN-TN-CHE") {
-  return apiClient(`/api/v1/regions/${regionId}/baselines`);
+  const resp = await apiClient(`/api/v1/regions/${regionId}/baselines`);
+  return resp?.baselines || resp;
 }
 
 export async function getRegionalAnomalies(regionId = "IN-TN-CHE") {

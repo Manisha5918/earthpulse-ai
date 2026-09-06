@@ -15,14 +15,16 @@ export function CompareLocationSelector({
   onSelectTarget
 }) {
   const presets = [
-    { label: "Chennai Pilot (IN-TN-CHE)", id: "IN-TN-CHE", status: "VERIFIED" },
-    { label: "Bengaluru Test (12.97°N, 77.59°E)", id: "BLR_TEST", status: "PROCESSING_REQUIRED" },
-    { label: "London Test (51.51°N, -0.13°E)", id: "LON_TEST", status: "DATA_UNAVAILABLE" }
+    { label: "Chennai Pilot (IN-TN-CHE)", sub: "Verified Metropolitan Pilot Extent", id: "IN-TN-CHE", status: "VERIFIED" },
+    { label: "Chennai Core Urban (CHE_G005)", sub: "T. Nagar / Urban Grid Cell", id: "CHE_G005", status: "VERIFIED" },
+    { label: "Chennai Port / Coastal (CHE_G001)", sub: "Royapuram / Coastal Grid Cell", id: "CHE_G001", status: "VERIFIED" },
+    { label: "Bengaluru Test (12.97°N, 77.59°E)", sub: "Expansion Candidate — Ingestion Pending", id: "BLR_TEST", status: "PROCESSING_REQUIRED" },
+    { label: "London Control (51.51°N, -0.13°E)", sub: "Global Reference — Outside India Domain", id: "LON_TEST", status: "DATA_UNAVAILABLE" }
   ];
   const statusLabel = (s) => (s === "VERIFIED" ? "Verified" : formatStatus(s));
 
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm space-y-4">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm space-y-4 transition-all">
       <div className="flex items-center justify-between pb-3 border-b border-slate-100">
         <span className="text-sm font-sans font-semibold text-slate-900 flex items-center gap-1.5">
           <MapPin className="w-3.5 h-3.5 text-emerald-600" />
@@ -44,13 +46,16 @@ export function CompareLocationSelector({
               className={clsx(
                 "w-full text-left p-3 rounded-xl border text-xs font-sans transition-all flex items-center justify-between select-none",
                 isSelected
-                  ? "bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold shadow-xs"
-                  : "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                  ? "bg-emerald-50/80 border-emerald-400 text-emerald-950 font-semibold shadow-xs ring-1 ring-emerald-400/30"
+                  : "bg-white border-slate-200 text-slate-700 hover:border-emerald-200 hover:bg-emerald-50/30"
               )}
             >
-              <span className="truncate text-xs">{p.label}</span>
+              <div className="truncate pr-2">
+                <div className="text-xs font-medium text-slate-900">{p.label}</div>
+                <div className="text-[11px] text-slate-500 font-sans font-normal truncate">{p.sub}</div>
+              </div>
               <span className={clsx(
-                "text-[10px] px-2 py-0.5 rounded-full font-sans font-semibold border",
+                "text-[10px] px-2 py-0.5 rounded-full font-sans font-semibold border flex-shrink-0",
                 p.status === "VERIFIED" ? "bg-emerald-100 text-emerald-800 border-emerald-200" :
                 p.status === "PROCESSING_REQUIRED" ? "bg-amber-50 text-amber-800 border-amber-200" :
                 "bg-slate-100 text-slate-600 border-slate-200"

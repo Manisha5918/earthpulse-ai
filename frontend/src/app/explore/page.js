@@ -215,21 +215,21 @@ export default function ExplorePage() {
         if (asyncResp.job_id || (asyncResp.detail && asyncResp.detail.job_id)) {
           const jId = asyncResp.job_id || asyncResp.detail.job_id;
           setActiveJob(jId);
-          startJobPolling(jId, locationSpec, seq);
+          startJobPolling(jId, locationSpec, seq, activeCell);
         } else {
-          handleSuccessfulResult(asyncResp, activeReg, activeLocMode, seq);
+          handleSuccessfulResult(asyncResp, activeReg, activeLocMode, seq, activeCell);
         }
       } else {
         // Synchronous Execution
         const data = await generateNarrativeIntelligence(reqPayload);
         if (isStale()) return;
-        handleSuccessfulResult(data, activeReg, activeLocMode, seq);
+        handleSuccessfulResult(data, activeReg, activeLocMode, seq, activeCell);
       }
     } catch (err) {
       if (isStale()) return;
       if (err.status === 202 && err.detail?.job_id) {
         setActiveJob(err.detail.job_id);
-        startJobPolling(err.detail.job_id, locationSpec, seq);
+        startJobPolling(err.detail.job_id, locationSpec, seq, activeCell);
       } else {
         setError(err.message || "Investigation execution failed.");
         setDomainStatus("ERROR");
@@ -242,7 +242,7 @@ export default function ExplorePage() {
   };
 
   // Handle Successful Narrative Result
-  const handleSuccessfulResult = async (data, regionCode, locMode, seq) => {
+  const handleSuccessfulResult = async (data, regionCode, locMode, seq, cellCode = null) => {
     if (seq !== undefined && seq !== requestSeqRef.current) return;
     setResult(data);
     setDomainStatus(data.status);
@@ -250,17 +250,18 @@ export default function ExplorePage() {
     // If verified pilot data available (e.g. Chennai), fetch full detailed profiles
     if (data.status === "AVAILABLE" || data.status === "PARTIAL_DATA") {
       try {
+        const targetId = cellCode || (selectedCell !== undefined ? selectedCell : null) || regionCode || "IN-TN-CHE";
         const [regData, profData, baseData, anomData, relData] = await Promise.all([
           getRegionDetail(regionCode || "IN-TN-CHE"),
-          getRegionalChangeProfile(regionCode || "IN-TN-CHE"),
-          getRegionalBaselines(regionCode || "IN-TN-CHE"),
-          getRegionalAnomalies(regionCode || "IN-TN-CHE"),
-          getRegionalRelationships(regionCode || "IN-TN-CHE")
+          getRegionalChangeProfile(targetId),
+          getRegionalBaselines(targetId),
+          getRegionalAnomalies(targetId),
+          getRegionalRelationships(targetId)
         ]);
         if (seq !== undefined && seq !== requestSeqRef.current) return;
         setRegionDetail(regData);
         setChangeProfile(profData);
-        setBaselines(baseData);
+        setBaselines(baseData?.baselines || baseData);
         setAnomalies(anomData);
         setRelationships(relData);
       } catch (_) {
@@ -278,7 +279,7 @@ export default function ExplorePage() {
   };
 
   // Async Polling Worker
-  const startJobPolling = (jobId, locSpec, seq) => {
+  const startJobPolling = (jobId, locSpec, seq, cellCode = null) => {
     if (pollingRef.current) clearInterval(pollingRef.current);
 
     pollingRef.current = setInterval(async () => {
@@ -307,7 +308,7 @@ export default function ExplorePage() {
             signals: selectedSignals,
             async_mode: false
           });
-          handleSuccessfulResult(syncData, selectedRegion, locationMode, seq);
+          handleSuccessfulResult(syncData, selectedRegion, locationMode, seq, cellCode);
         } else if (statusResp.status === "FAILED") {
           clearInterval(pollingRef.current);
           pollingRef.current = null;
@@ -370,8 +371,21 @@ export default function ExplorePage() {
     setSelectedCell(null);
   };
 
-  const handleCellChange = (cellCode) => {
+  const handleCellChange = async (cellCode) => {
     setSelectedCell(cellCode);
+    const target = cellCode || selectedRegion || "IN-TN-CHE";
+    try {
+      const [profData, baseData, anomData, relData] = await Promise.all([
+        getRegionalChangeProfile(target),
+        getRegionalBaselines(target),
+        getRegionalAnomalies(target),
+        getRegionalRelationships(target)
+      ]);
+      setChangeProfile(profData);
+      setBaselines(baseData?.baselines || baseData);
+      setAnomalies(anomData);
+      setRelationships(relData);
+    } catch (_) {}
   };
 
   const handleCoordsChange = (coords) => {
@@ -391,33 +405,33 @@ export default function ExplorePage() {
   const locationDisplayName = selectedCell || selectedRegion || `${customCoords.lat.toFixed(4)}°N, ${customCoords.lon.toFixed(4)}°E`;
 
   return (
-    <div className="flex-1 flex flex-col min-h-[calc(100vh-4rem)] bg-slate-50/50">
+    <div className="flex-1 flex flex-col min-h-[calc(100vh-4rem)] bg-slate-50/70">
       {/* Breadcrumb + page header */}
       <div className="border-b border-slate-200/80 bg-white/95 px-4 sm:px-6 py-4 flex-shrink-0">
         <div className="max-w-7xl mx-auto w-full space-y-2">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
-            <span className="text-slate-900 font-medium">Explore</span>
+            <span className="text-emerald-800 font-bold">Explore</span>
             <span aria-hidden="true" className="text-slate-300">/</span>
-            <span>{selectedCell ? `Cell ${selectedCell}` : locationMode === "point" ? "Custom point" : "Chennai"}</span>
+            <span className="font-medium text-slate-700">{selectedCell ? `Cell ${selectedCell}` : locationMode === "point" ? "Custom point" : "Chennai Pilot"}</span>
             <span
               className={clsx(
-                "ml-1 text-[11px] px-2 py-0.5 rounded-full border font-medium",
-                domainStatus === "AVAILABLE" && "bg-emerald-50 text-emerald-800 border-emerald-200",
-                domainStatus === "PARTIAL_DATA" && "bg-amber-50 text-amber-800 border-amber-200",
-                domainStatus === "PROCESSING_REQUIRED" && "bg-sky-50 text-sky-800 border-sky-200",
-                domainStatus === "DATA_UNAVAILABLE" && "bg-slate-100 text-slate-600 border-slate-200",
-                domainStatus === "ERROR" && "bg-rose-50 text-rose-800 border-rose-200"
+                "ml-1 text-[11px] px-2 py-0.5 rounded-full border font-semibold",
+                domainStatus === "AVAILABLE" && "bg-emerald-50 text-emerald-800 border-emerald-300 shadow-xs",
+                domainStatus === "PARTIAL_DATA" && "bg-amber-50 text-amber-800 border-amber-300",
+                domainStatus === "PROCESSING_REQUIRED" && "bg-sky-50 text-sky-800 border-sky-300",
+                domainStatus === "DATA_UNAVAILABLE" && "bg-slate-100 text-slate-600 border-slate-300",
+                domainStatus === "ERROR" && "bg-rose-50 text-rose-800 border-rose-300"
               )}
             >
               {formatStatus(domainStatus)}
             </span>
           </nav>
           <div>
-            <h1 className="font-serif font-semibold text-2xl sm:text-3xl text-slate-900 tracking-tight mt-0.5">
-              Explore a region
+            <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-900 tracking-tight mt-0.5">
+              Explore Regional Intelligence
             </h1>
             <p className="text-sm text-slate-600 font-sans mt-1 max-w-2xl">
-              See what changed, which signals support it, and how strong the evidence is.
+              Inspect multi-sensor baselines, spatial deviations, and AI narrative briefings across the analytical grid.
             </p>
           </div>
           {/* Investigation step anchors */}
@@ -431,7 +445,7 @@ export default function ExplorePage() {
               <a
                 key={s.href}
                 href={s.href}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-sans font-medium text-slate-700 hover:bg-white hover:border-slate-300 hover:text-slate-900 transition-all"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50/60 border border-emerald-200 text-xs font-sans font-semibold text-emerald-950 hover:bg-emerald-100/80 hover:border-emerald-300 transition-all shadow-xs"
               >
                 <span className="w-4 h-4 rounded-full bg-emerald-600 text-white font-mono font-bold text-[10px] flex items-center justify-center">
                   {s.num}
@@ -443,29 +457,30 @@ export default function ExplorePage() {
         </div>
       </div>
 
-      {/* Main Workstation Container (Full Width, Zero Blank Margins) */}
+      {/* Main Workstation Container */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-8">
         
         {/* Top Investigation Command Console */}
-        <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm space-y-6">
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm space-y-6 transition-all">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
             <div className="space-y-0.5">
-              <span className="text-xs font-mono font-semibold uppercase text-emerald-700 tracking-wider">
+              <span className="text-xs font-mono font-bold uppercase text-emerald-800 tracking-wider flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-600" />
                 Select a region
               </span>
-              <h2 className="font-serif font-semibold text-lg sm:text-xl text-slate-900">
-                Choose what to investigate
+              <h2 className="font-display font-bold text-lg sm:text-xl text-slate-900">
+                Choose What to Investigate
               </h2>
               <p className="text-xs text-slate-500 font-sans">
                 Chennai is the verified pilot region. Unverified locations explain what is missing instead of showing data.
               </p>
             </div>
             {availabilityData && (
-              <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono">
-                <span className="text-slate-500">Extent:</span>
-                <strong className="text-emerald-800 font-bold">{formatStatus(availabilityData.status)}</strong>
+              <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 text-xs font-mono">
+                <span className="text-emerald-700 font-medium">Extent:</span>
+                <strong className="text-emerald-900 font-bold">{formatStatus(availabilityData.status)}</strong>
                 {availabilityData.is_verified_pilot_extent && (
-                  <span className="text-[10px] bg-emerald-100/80 text-emerald-800 px-2 py-0.5 rounded font-bold">VERIFIED PILOT</span>
+                  <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded font-bold">VERIFIED PILOT</span>
                 )}
               </div>
             )}
@@ -548,13 +563,16 @@ export default function ExplorePage() {
             <>
               {/* STEP 1: OVERVIEW — map, selected region, change score */}
               <div id="section-overview" className="space-y-6 scroll-mt-24">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                  <div className="space-y-0.5">
-                    <h2 className="font-sans font-semibold text-lg sm:text-xl text-slate-900 tracking-tight">
-                      Map and change score
+                <div className="flex items-center justify-between pb-3 border-b border-emerald-100">
+                  <div className="space-y-0.5 border-l-3 border-emerald-500 pl-3">
+                    <span className="text-[10px] font-mono font-bold uppercase text-emerald-700 tracking-wider">
+                      Step 1 · Analytical Spatial Extent
+                    </span>
+                    <h2 className="font-display font-bold text-xl sm:text-2xl text-slate-900 tracking-tight">
+                      Map & Regional Change Score
                     </h2>
                     <p className="text-xs text-slate-500 font-sans">
-                      Select a grid cell to investigate it. The score below summarizes what the evidence shows.
+                      Select a grid cell to investigate local telemetry. The composite score summarizes multi-sensor variance.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -564,7 +582,7 @@ export default function ExplorePage() {
                       onClick={() => toggleSection("overview")}
                       aria-label="Toggle overview section"
                       aria-expanded={expandedSections.overview}
-                      className="p-1 text-slate-500 hover:text-slate-900 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="p-1.5 text-slate-500 hover:text-emerald-800 hover:bg-emerald-50 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 border border-slate-200"
                       title="Toggle Section"
                     >
                       {expandedSections.overview ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -575,55 +593,53 @@ export default function ExplorePage() {
                 {expandedSections.overview && (
                 <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-sans font-semibold text-slate-900 pb-2">
-                    Analytical grid
-                    <span className="ml-2 text-xs font-mono font-normal text-slate-500">16 cells · 0.05° resolution · Chennai pilot</span>
+                  <h3 className="text-sm font-display font-bold text-slate-900 pb-2 flex items-center justify-between">
+                    <span>0.05° Analytical Spatial Grid</span>
+                    <span className="text-xs font-mono font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">16 Cells · Chennai Pilot Extent</span>
                   </h3>
-                  <div className="h-[520px] rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+                  <div className="h-[520px] rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm bg-white">
                     <MapContainer
                       regionId={selectedRegion}
                       selectedCell={selectedCell}
-                      onSelectCell={(cellCode) => {
-                        setSelectedCell(cellCode);
-                        if (cellCode) {
-                          handleRunInvestigation({ selectedCell: cellCode });
-                        }
-                      }}
+                      onSelectCell={handleCellChange}
                     />
                   </div>
                   <p className="text-xs text-slate-500 font-sans pt-2">
-                    Click a cell to investigate it — the panel, score and evidence below update. Click it again to clear the selection.
+                    Click any cell on the grid to inspect localized physical observations. Click again to reset to regional view.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-sans font-semibold text-slate-900 pb-2">
-                    Regional change score
-                    <span className="ml-2 text-xs font-mono font-normal text-slate-500">0–100 · phase6-v1</span>
+                  <h3 className="text-sm font-display font-bold text-slate-900 pb-2 flex items-center justify-between">
+                    <span>Multi-Sensor Composite Change Score</span>
+                    <span className="text-xs font-mono font-normal text-slate-500">Scale: 0–100</span>
                   </h3>
                   <div className="space-y-3">
-                    <ChangeScoreCard changeScore={result?.regional_change_score || changeProfile?.regional_change_score} />
+                    <ChangeScoreCard changeScore={selectedCell ? (changeProfile?.regional_change_score || result?.regional_change_score) : (result?.regional_change_score || changeProfile?.regional_change_score)} />
                     <p className="text-xs text-slate-600 font-sans leading-relaxed">
-                      A 0–100 summary of how much the evidence shows this region changed. It is an analytical result, not a prediction, probability or ranking.
+                      A 0–100 mathematical synthesis of observed variance across physical sensors. Not a disaster prediction or economic ranking.
                     </p>
-                    <div className="p-3.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-600 shadow-xs">
-                      <span className="text-slate-900 font-semibold">Scientific Definition:</span> Regional Change Score is a regional composite analytical score across the extent. It is explicitly not a prediction, probability, economic score, development score, or causal claim.
-                    </div>
+                    <div className="p-3.5 bg-slate-50 border border-slate-200/70 rounded-xl text-xs font-mono text-slate-700 shadow-xs">
+                      <span className="text-emerald-800 font-bold">Scientific Disclosure:</span> Regional Change Score is an evidence-grounded physical metric derived from verifiable satellite and atmospheric observations.
                     </div>
                   </div>
+                </div>
                 </div>
                 )}
               </div>
 
               {/* STEP 2: EVIDENCE — signals, anomalies, observation timing */}
               <div id="section-evidence" className="space-y-6 scroll-mt-24">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                  <div className="space-y-0.5">
-                    <h2 className="font-sans font-semibold text-lg sm:text-xl text-slate-900 tracking-tight">
-                      Sensor evidence
+                <div className="flex items-center justify-between pb-3 border-b border-emerald-100">
+                  <div className="space-y-0.5 border-l-3 border-emerald-500 pl-3">
+                    <span className="text-[10px] font-mono font-bold uppercase text-emerald-700 tracking-wider">
+                      Step 2 · Verifiable Observations
+                    </span>
+                    <h2 className="font-display font-bold text-xl sm:text-2xl text-slate-900 tracking-tight">
+                      Physical Sensor Evidence
                     </h2>
                     <p className="text-xs text-slate-500 font-sans">
-                      What each satellite and weather source observed, how unusual it is, and when it was collected.
+                      Direct physical observations, statistical z-scores, and temporal observation schedules.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -633,7 +649,7 @@ export default function ExplorePage() {
                       onClick={() => toggleSection("evidence")}
                       aria-label="Toggle sensor evidence section"
                       aria-expanded={expandedSections.evidence}
-                      className="p-1 text-slate-500 hover:text-slate-900 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="p-1.5 text-slate-500 hover:text-emerald-800 hover:bg-emerald-50 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 border border-slate-200"
                       title="Toggle Section"
                     >
                       {expandedSections.evidence ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -644,7 +660,7 @@ export default function ExplorePage() {
                 {expandedSections.evidence && (
                 <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-sans font-semibold text-slate-900 pb-2">What the sensors observed</h3>
+                  <h3 className="text-sm font-display font-bold text-slate-900 pb-2">Physical Telemetry & Baselines</h3>
                   <RegionalSignalOverview
                     baselines={baselines}
                     latestObservations={regionDetail?.profile}
@@ -653,9 +669,9 @@ export default function ExplorePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-sans font-semibold text-slate-900 pb-1">
-                    How unusual is this location?
-                    <span className="ml-2 text-xs font-mono font-normal text-slate-500">Z-scores and spatial deviation</span>
+                  <h3 className="text-sm font-display font-bold text-slate-900 pb-1 flex items-center gap-2">
+                    <span>Statistical Deviation & Anomaly Detection</span>
+                    <span className="text-xs font-mono font-normal text-slate-500">Temporal Z-Scores & Spatial Deviation</span>
                   </h3>
                   <RegionalAnomalySection
                     temporalAnomalies={anomalies.temporal_anomalies || changeProfile?.temporal_anomalies || []}
@@ -665,12 +681,12 @@ export default function ExplorePage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-sans font-semibold text-slate-900 pb-1">
-                    When were these collected?
-                    <span className="ml-2 text-xs font-mono font-normal text-slate-500">Do the observations line up in time?</span>
+                  <h3 className="text-sm font-display font-bold text-slate-900 pb-1 flex items-center gap-2">
+                    <span>Observation Schedules & Temporal Coverage</span>
+                    <span className="text-xs font-mono font-normal text-slate-500">Discrete Sensor Sequences (2021–2024)</span>
                   </h3>
                   <div className="space-y-6">
-                    {/* Multi-Sensor Schedule Sequences (Full Width for Maximum Readability) */}
+                    {/* Multi-Sensor Schedule Sequences */}
                     <SentinelTimeline scenes={regionDetail?.profile?.sentinel2 || []} />
                     <ViirsBaselineTimeline viirsComposites={regionDetail?.profile?.viirs || []} />
 
@@ -688,14 +704,17 @@ export default function ExplorePage() {
               </div>
 
               {/* STEP 3: RELATIONSHIPS — signals changing together */}
-              <div id="section-relationships" className="space-y-3 scroll-mt-24">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                  <div className="space-y-0.5">
-                    <h2 className="font-sans font-semibold text-lg sm:text-xl text-slate-900 tracking-tight">
-                      Signals changing together
+              <div id="section-relationships" className="space-y-4 scroll-mt-24">
+                <div className="flex items-center justify-between pb-3 border-b border-emerald-100">
+                  <div className="space-y-0.5 border-l-3 border-emerald-500 pl-3">
+                    <span className="text-[10px] font-mono font-bold uppercase text-emerald-700 tracking-wider">
+                      Step 3 · Cross-Signal Concurrence
+                    </span>
+                    <h2 className="font-display font-bold text-xl sm:text-2xl text-slate-900 tracking-tight">
+                      Signals Changing Together
                     </h2>
                     <p className="text-xs text-slate-500 font-sans">
-                      Which signals agree — stated as correlation, never as causation.
+                      Non-causal statistical correlation between physical signals over time.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -705,7 +724,7 @@ export default function ExplorePage() {
                       onClick={() => toggleSection("relationships")}
                       aria-label="Toggle relationships section"
                       aria-expanded={expandedSections.relationships}
-                      className="p-1 text-slate-500 hover:text-slate-900 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="p-1.5 text-slate-500 hover:text-emerald-800 hover:bg-emerald-50 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 border border-slate-200"
                       title="Toggle Section"
                     >
                       {expandedSections.relationships ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -720,10 +739,10 @@ export default function ExplorePage() {
                       relationships={relationships.relationships || changeProfile?.relationships || []}
                       hideHeader={true}
                     />
-                    <div className="p-4 bg-emerald-50/50 border border-emerald-200/80 rounded-xl text-xs font-mono text-slate-800 flex items-center gap-2.5">
+                    <div className="p-4 bg-emerald-50/60 border border-emerald-200/80 rounded-xl text-xs font-mono text-slate-800 flex items-center gap-2.5">
                       <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                       <span>
-                        <strong className="text-slate-900">Strict Non-Causal Disclosure:</strong> All cross-signal relationships represent statistical associations (correlation), not causal claims. Causal inferences are strictly prohibited.
+                        <strong className="text-emerald-950 font-bold">Strict Non-Causal Disclosure:</strong> All cross-signal relationships represent statistical associations (correlation), not causal claims. Causal inferences are strictly prohibited.
                       </span>
                     </div>
                   </div>
@@ -732,16 +751,16 @@ export default function ExplorePage() {
 
               {/* STEP 4: SUMMARY — grounded narrative + provenance */}
               <div id="section-summary" className="space-y-6 scroll-mt-24">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                  <div className="space-y-0.5">
-                    <p className="text-xs font-mono font-semibold uppercase text-emerald-700 tracking-wider">
-                      Step 4 — Summary
-                    </p>
-                    <h2 className="font-sans font-semibold text-xl sm:text-2xl text-slate-900 tracking-tight">
-                      Summary
+                <div className="flex items-center justify-between pb-3 border-b border-emerald-100">
+                  <div className="space-y-0.5 border-l-3 border-emerald-500 pl-3">
+                    <span className="text-[10px] font-mono font-bold uppercase text-emerald-700 tracking-wider">
+                      Step 4 · Evidence Synthesis
+                    </span>
+                    <h2 className="font-display font-bold text-xl sm:text-2xl text-slate-900 tracking-tight">
+                      Grounded AI Executive Briefing
                     </h2>
                     <p className="text-xs text-slate-500 font-sans">
-                      A grounded summary of what the evidence supports — every claim links to its evidence.
+                      A verifiable briefing strictly grounded in immutable physical observation metrics.
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -751,7 +770,7 @@ export default function ExplorePage() {
                       onClick={() => toggleSection("briefing")}
                       aria-label="Toggle summary section"
                       aria-expanded={expandedSections.briefing}
-                      className="p-1 text-slate-500 hover:text-slate-900 transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                      className="p-1.5 text-slate-500 hover:text-emerald-800 hover:bg-emerald-50 transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 border border-slate-200"
                       title="Toggle Section"
                     >
                       {expandedSections.briefing ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

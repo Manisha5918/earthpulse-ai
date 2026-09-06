@@ -10,28 +10,28 @@ import { ProvenanceBadge } from "../common/ProvenanceBadge";
 
 export function IntelligenceHeader({ totalFindings = 0, processedRegions = 1 }) {
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 transition-all">
       {/* Top Meta Memo */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-xs text-slate-500 font-sans">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span>Findings across the pilot region</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+          <span className="text-emerald-800 font-bold uppercase tracking-wider font-mono text-[11px]">Regional Intelligence Feed</span>
         </div>
-        <span>Coverage: pilot extent</span>
+        <span className="font-mono text-emerald-900 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 text-[10px] font-bold">Coverage: Pilot Extent</span>
       </div>
 
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-        <div className="space-y-2">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-semibold text-slate-900 tracking-tight">
-            Latest findings
+        <div className="space-y-2 border-l-3 border-emerald-500 pl-3">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
+            Latest Regional Findings
           </h1>
           <p className="text-sm font-sans text-slate-600 max-w-2xl">
-            The strongest evidence-backed findings EarthPulse currently has.
+            Surfaces verified multi-signal findings synthesized strictly from immutable physical observations.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">
+          <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-100/80 border border-emerald-300 text-emerald-900 font-bold">
             PILOT: CHENNAI (IN-TN-CHE)
           </span>
           <ProvenanceBadge type="CALCULATED" size="sm" />

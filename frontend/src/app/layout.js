@@ -1,19 +1,20 @@
-import { Playfair_Display, Manrope, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import { Navbar } from "../components/common/Navbar";
 import { Footer } from "../components/common/Footer";
 
-const playfair = Playfair_Display({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-  style: ["normal", "italic"]
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap"
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700"],
   display: "swap"
 });
 
@@ -30,8 +31,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen flex flex-col bg-slate-50/60 text-slate-900 antialiased font-sans selection:bg-emerald-100 selection:text-emerald-900">
+    <html lang="en" className={`${plusJakarta.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-screen flex flex-col bg-slate-50/70 text-slate-900 antialiased font-sans selection:bg-emerald-200 selection:text-emerald-950">
         <Navbar />
         <main className="flex-1 flex flex-col">
           {children}

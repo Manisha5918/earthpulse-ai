@@ -56,7 +56,7 @@ export default function RegionProfilePage() {
 
         setRegionDetail(regData);
         setChangeProfile(profData);
-        setBaselines(baseData);
+        setBaselines(baseData?.baselines || baseData);
         setAnomalies(anomData);
         setRelationships(relData);
         setNarrativeData(narResp);

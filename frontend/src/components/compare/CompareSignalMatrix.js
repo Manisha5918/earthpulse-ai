@@ -8,23 +8,32 @@ import React from "react";
 import { ProvenanceBadge } from "../common/ProvenanceBadge";
 import { Activity } from "lucide-react";
 
-export function CompareSignalMatrix({ targetA, targetB, baselinesA, baselinesB, osmA = null }) {
-  // Location-A presence gate: Location A values render ONLY from backend
-  // baselines. When target A is unverified (no baselines loaded), the entire
-  // column reads N/A so no pilot-extent values leak into other locations.
-  const hasA = !!baselinesA;
+export function CompareSignalMatrix({ targetA, targetB, baselinesA, baselinesB, osmA = null, osmB = null }) {
+  // Location-A and Location-B presence gate
+  const baseA = baselinesA?.baselines || baselinesA;
+  const baseB = baselinesB?.baselines || baselinesB;
+  const hasA = !!baseA && (baseA.ndvi !== undefined || baseA.temperature_2m !== undefined || (typeof baseA === "object" && Object.keys(baseA).length > 0));
+  const hasB = !!baseB && (baseB.ndvi !== undefined || baseB.temperature_2m !== undefined || (typeof baseB === "object" && Object.keys(baseB).length > 0));
   const naA = "N/A";
   const noDataA = "No data ingested";
+
+  const getFallbackB = () => {
+    if (targetB === "BLR_TEST") return { val: "Processing required", obs: "Ingestion pending (Bengaluru)" };
+    if (targetB === "LON_TEST") return { val: "Unavailable", obs: "Outside India domain" };
+    return { val: "Processing required", obs: "No records ingested" };
+  };
+  const fbB = getFallbackB();
+
   const signals = [
     {
       name: "Sentinel-2 Multispectral",
       metric: "Vegetation Index (NDVI)",
       semantics: "MULTI-TEMPORAL SCENES",
       unit: "index",
-      valA: hasA && baselinesA?.ndvi?.mean !== undefined ? baselinesA.ndvi.mean.toFixed(4) : naA,
+      valA: hasA && baseA?.ndvi?.mean !== undefined ? baseA.ndvi.mean.toFixed(4) : naA,
       obsA: hasA ? "4 Scenes (2021–2024)" : noDataA,
-      valB: baselinesB?.ndvi?.mean !== undefined ? baselinesB.ndvi.mean.toFixed(4) : "Processing required",
-      obsB: "No scenes ingested",
+      valB: hasB && baseB?.ndvi?.mean !== undefined ? baseB.ndvi.mean.toFixed(4) : fbB.val,
+      obsB: hasB ? "4 Scenes (2021–2024)" : fbB.obs,
       prov: "CALCULATED"
     },
     {
@@ -32,10 +41,10 @@ export function CompareSignalMatrix({ targetA, targetB, baselinesA, baselinesB, 
       metric: "Built-up Index (NDBI)",
       semantics: "MULTI-TEMPORAL SCENES",
       unit: "index",
-      valA: hasA && baselinesA?.ndbi?.mean !== undefined ? baselinesA.ndbi.mean.toFixed(4) : naA,
+      valA: hasA && baseA?.ndbi?.mean !== undefined ? baseA.ndbi.mean.toFixed(4) : naA,
       obsA: hasA ? "4 Scenes (2021–2024)" : noDataA,
-      valB: baselinesB?.ndbi?.mean !== undefined ? baselinesB.ndbi.mean.toFixed(4) : "Processing required",
-      obsB: "No scenes ingested",
+      valB: hasB && baseB?.ndbi?.mean !== undefined ? baseB.ndbi.mean.toFixed(4) : fbB.val,
+      obsB: hasB ? "4 Scenes (2021–2024)" : fbB.obs,
       prov: "CALCULATED"
     },
     {
@@ -43,10 +52,10 @@ export function CompareSignalMatrix({ targetA, targetB, baselinesA, baselinesB, 
       metric: "Nighttime Radiance Mean",
       semantics: "ANNUAL BASELINE (April)",
       unit: "nW/(cm²·sr)",
-      valA: hasA && baselinesA?.viirs_radiance?.mean !== undefined ? `${baselinesA.viirs_radiance.mean.toFixed(2)}` : naA,
+      valA: hasA && baseA?.viirs_radiance?.mean !== undefined ? `${baseA.viirs_radiance.mean.toFixed(2)}` : naA,
       obsA: hasA ? "4 April Baselines" : noDataA,
-      valB: baselinesB?.viirs_radiance?.mean !== undefined ? `${baselinesB.viirs_radiance.mean.toFixed(2)}` : "Processing required",
-      obsB: "No baselines ingested",
+      valB: hasB && baseB?.viirs_radiance?.mean !== undefined ? `${baseB.viirs_radiance.mean.toFixed(2)}` : fbB.val,
+      obsB: hasB ? "4 April Baselines" : fbB.obs,
       prov: "CALCULATED"
     },
     {
@@ -54,10 +63,10 @@ export function CompareSignalMatrix({ targetA, targetB, baselinesA, baselinesB, 
       metric: "Mean Temperature (T2M)",
       semantics: "DAILY OBSERVATIONS",
       unit: "°C",
-      valA: hasA && baselinesA?.temperature_2m?.mean !== undefined ? `${baselinesA.temperature_2m.mean.toFixed(1)} °C` : naA,
+      valA: hasA && baseA?.temperature_2m?.mean !== undefined ? `${baseA.temperature_2m.mean.toFixed(1)} °C` : naA,
       obsA: hasA ? "1,461 Daily Records" : noDataA,
-      valB: baselinesB?.temperature_2m?.mean !== undefined ? `${baselinesB.temperature_2m.mean.toFixed(1)} °C` : "Processing required",
-      obsB: "No records ingested",
+      valB: hasB && baseB?.temperature_2m?.mean !== undefined ? `${baseB.temperature_2m.mean.toFixed(1)} °C` : fbB.val,
+      obsB: hasB ? "1,461 Daily Records" : fbB.obs,
       prov: "OBSERVED"
     },
     {
@@ -70,14 +79,16 @@ export function CompareSignalMatrix({ targetA, targetB, baselinesA, baselinesB, 
         ? `${Number(osmA.road_density_km_per_km2).toFixed(2)} km/km² (${Math.round(Number(osmA.total_road_length_km)).toLocaleString("en-US")} km)`
         : naA,
       obsA: hasA ? "Static Snapshot" : noDataA,
-      valB: "Processing required",
-      obsB: "No snapshot ingested",
+      valB: hasB && osmB?.road_density_km_per_km2 !== undefined && osmB?.road_density_km_per_km2 !== null
+        ? `${Number(osmB.road_density_km_per_km2).toFixed(2)} km/km²`
+        : fbB.val,
+      obsB: hasB ? "Static Snapshot" : fbB.obs,
       prov: "CALCULATED"
     }
   ];
 
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 transition-all">
       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
         <div className="space-y-0.5">
           <div className="text-xs font-display font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2">

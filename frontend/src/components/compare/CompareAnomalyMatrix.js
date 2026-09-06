@@ -8,9 +8,9 @@ import React from "react";
 import { ProvenanceBadge } from "../common/ProvenanceBadge";
 import { AlertCircle } from "lucide-react";
 
-export function CompareAnomalyMatrix({ targetA, targetB, anomaliesA = [], anomaliesB = [] }) {
+export function CompareAnomalyMatrix({ targetA, targetB, anomaliesA = [], anomaliesB = [], hasB = false }) {
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+    <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 transition-all">
       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
         <div className="space-y-0.5">
           <div className="text-sm font-sans font-semibold text-slate-900 flex items-center gap-2">
@@ -55,14 +55,42 @@ export function CompareAnomalyMatrix({ targetA, targetB, anomaliesA = [], anomal
         <div className="p-5 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3 font-mono text-xs">
           <div className="flex justify-between border-b border-slate-200 pb-2">
             <span className="font-bold text-slate-700">LOCATION B: {targetB}</span>
-            <span className="text-[10px] text-amber-800 font-semibold px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200">
-              PROCESSING REQUIRED
+            <span className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${
+              hasB
+                ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                : targetB === "BLR_TEST"
+                ? "bg-amber-50 text-amber-800 border-amber-200"
+                : "bg-slate-100 text-slate-600 border-slate-200"
+            }`}>
+              {hasB ? "4 Signals Processed" : targetB === "BLR_TEST" ? "PROCESSING REQUIRED" : "UNAVAILABLE"}
             </span>
           </div>
 
-          <div className="p-4 bg-white rounded-xl border border-slate-200 text-xs text-slate-600 font-sans leading-relaxed">
-            Baseline anomaly calculations not yet available for {targetB}. Ingestion and historical baselining required before anomaly scoring.
-          </div>
+          {hasB ? (
+            <div className="space-y-2">
+              {anomaliesB.length > 0 ? (
+                anomaliesB.map((a, i) => (
+                  <div key={i} className="p-3 rounded-xl bg-white border border-slate-200/80 flex justify-between items-center shadow-xs">
+                    <span className="font-semibold text-slate-900">{a.signal.toUpperCase()}</span>
+                    <span className="text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md text-xs">
+                      z = {a.z_score !== null ? a.z_score.toFixed(3) : "N/A"}
+                    </span>
+                    <span className="text-[10px] text-slate-500 font-semibold uppercase">{a.severity}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="p-3 bg-white rounded-xl border border-slate-200 text-slate-500 text-xs font-sans">
+                  No active anomalies calculated for this extent.
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="p-4 bg-white rounded-xl border border-slate-200 text-xs text-slate-600 font-sans leading-relaxed">
+              {targetB === "BLR_TEST"
+                ? "Baseline anomaly calculations not yet available for Bengaluru (BLR_TEST). Raw scene ingestion (Sentinel-2 L2A tile 43PGP) and historical baselining required before anomaly scoring."
+                : `Baseline anomaly calculations not yet available for ${targetB}. Ingestion and historical baselining required before anomaly scoring.`}
+            </div>
+          )}
         </div>
       </div>
     </div>
