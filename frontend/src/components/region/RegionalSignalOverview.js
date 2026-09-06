@@ -55,9 +55,9 @@ export function RegionalSignalOverview({ baselines = {}, latestObservations = {}
     <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6 transition-all">
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
-        <div className="space-y-0.5 border-l-3 border-emerald-800 pl-3">
+        <div className="space-y-0.5 border-l-3 border-emerald-600 pl-3">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-emerald-800" />
+            <Activity className="w-4 h-4 text-emerald-600" />
             <h2 className="text-sm font-display font-bold text-slate-900">
               What the Sensors Observed
             </h2>

@@ -63,17 +63,17 @@ export default function HomePage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         <div className="lg:col-span-7 space-y-6">
           {/* Glowing Green Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-300/80 shadow-xs shadow-emerald-500/10">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 shadow-xs shadow-emerald-500/10">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-700">
               India Geospatial Intelligence Platform
             </span>
           </div>
 
-          {/* Bold Attractive Heading with Intense Deep Green */}
+          {/* Bold Attractive Heading with Unified Brand Emerald */}
           <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.06]">
             AI that reveals how{" "}
-            <span className="text-emerald-800 font-black">
+            <span className="text-emerald-600 font-black">
               India is changing.
             </span>
           </h1>
@@ -84,7 +84,7 @@ export default function HomePage() {
 
           <div className="flex flex-wrap items-center gap-3.5 pt-2">
             <Link href="/explore">
-              <Button size="lg" variant="primary" className="gap-2 text-sm font-bold px-8 py-3.5 bg-emerald-800 hover:bg-emerald-900 text-white shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5">
+              <Button size="lg" variant="primary" className="gap-2 text-sm font-bold px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5">
                 <span>Launch Workspace</span>
                 <ArrowUpRight className="w-4 h-4" />
               </Button>
@@ -92,7 +92,7 @@ export default function HomePage() {
             <Link href="/about">
               <Button size="lg" variant="secondary" className="gap-2 text-sm font-semibold px-7 py-3.5 border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-800 transition-all">
                 <span>Scientific Methodology</span>
-                <ArrowRight className="w-4 h-4 text-emerald-800" />
+                <ArrowRight className="w-4 h-4 text-emerald-600" />
               </Button>
             </Link>
           </div>
@@ -114,10 +114,10 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent pointer-events-none" />
           <div className="absolute bottom-4 left-4 right-4 text-xs font-sans text-slate-200 flex items-center justify-between p-3 rounded-xl bg-slate-900/80 backdrop-blur-md border border-slate-700/50">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
               <span className="font-medium text-slate-100">Pilot Extent: Chennai Metropolitan Area</span>
             </div>
-            <span className="text-emerald-300 font-mono font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40 text-[11px]">
+            <span className="text-emerald-400 font-mono font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40 text-[11px]">
               16 Grid Cells
             </span>
           </div>
@@ -126,8 +126,8 @@ export default function HomePage() {
 
       {/* 2. What EarthPulse brings together */}
       <div className="space-y-6">
-        <div className="max-w-2xl space-y-2 border-l-4 border-emerald-800 pl-4">
-          <p className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800">
+        <div className="max-w-2xl space-y-2 border-l-4 border-emerald-600 pl-4">
+          <p className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-700">
             Multi-Source Fusion Engine
           </p>
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 tracking-tight">
@@ -147,7 +147,7 @@ export default function HomePage() {
                 className="bg-white border border-slate-200/70 hover:border-slate-300 rounded-2xl p-5 space-y-3 shadow-xs hover:shadow-md transition-all duration-300 group"
               >
                 <div className="w-10 h-10 rounded-xl bg-emerald-50/80 border border-emerald-100 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
-                  <Icon className="w-5 h-5 text-emerald-800" />
+                  <Icon className="w-5 h-5 text-emerald-600" />
                 </div>
                 <h3 className="font-display font-bold text-base text-slate-900">{s.name}</h3>
                 <p className="text-xs text-slate-600 leading-relaxed font-sans">{s.detail}</p>
@@ -159,8 +159,8 @@ export default function HomePage() {
 
       {/* 3. How an investigation works */}
       <div className="space-y-6">
-        <div className="max-w-2xl space-y-2 border-l-4 border-emerald-800 pl-4">
-          <p className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800">
+        <div className="max-w-2xl space-y-2 border-l-4 border-emerald-600 pl-4">
+          <p className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-700">
             5-Stage Analytical Lifecycle
           </p>
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 tracking-tight">
@@ -175,7 +175,7 @@ export default function HomePage() {
               className="bg-white border border-slate-200/70 hover:border-slate-300 rounded-2xl p-5 space-y-3 shadow-xs hover:shadow-md transition-all duration-300 group"
             >
               <div className="flex items-center justify-between">
-                <span className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white font-mono font-bold text-xs flex items-center justify-center shadow-xs shadow-emerald-700/30">
+                <span className="w-8 h-8 rounded-xl bg-emerald-600 text-white font-mono font-bold text-xs flex items-center justify-center shadow-xs shadow-emerald-700/30">
                   {s.num}
                 </span>
                 <span className="text-[10px] font-mono font-semibold uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
@@ -191,7 +191,7 @@ export default function HomePage() {
         <div className="pt-2">
           <Link
             href="/explore"
-            className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50/80 hover:bg-emerald-100 px-5 py-2.5 rounded-xl border border-emerald-300/80 shadow-xs transition-all"
+            className="inline-flex items-center gap-2 text-sm font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50/80 hover:bg-emerald-100 px-5 py-2.5 rounded-xl border border-emerald-200/80 shadow-xs transition-all"
           >
             <span>Start with the Chennai Pilot Region</span>
             <ArrowRight className="w-4 h-4 text-emerald-600" />
