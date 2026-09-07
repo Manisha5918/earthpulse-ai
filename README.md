@@ -212,13 +212,7 @@ regional clustering
 
 Examines whether different independent signals changed together.
 
-For example:
-
-NDVI ↓
-+
-NDBI ↑
-+
-VIIRS ↑
+For example: NDVI ↓ + NDBI ↑ + VIIRS ↑
 
 may represent a meaningful multi-signal pattern.
 
