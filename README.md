@@ -20,21 +20,6 @@ EarthPulse AI was developed as a student hackathon project for **TSM-TECHNOVA 20
 
 The current fully validated real-data pilot focuses on **Chennai, Tamil Nadu**.
 
----
-
-## 🚀 Live Demo
-
-### 🌐 Frontend
-
-https://earthpulse-ai-ten.vercel.app
-
-### ⚙️ Backend API
-
-https://earthpulse-ai-nkt4.onrender.com
-
-### 💻 GitHub Repository
-
-https://github.com/Manisha5918/earthpulse-ai
 
 ---
 
